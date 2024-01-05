@@ -12,10 +12,13 @@ import com.cat201.beans.Staff;
 public class StaffDAO {
 
     Connection conn;
+
+    public StaffDAO() {
+    }
     
     public StaffDAO(Connection conn) {
         this.conn = conn;
-
+        
         String stmt = "CREATE TABLE IF NOT EXISTS Staffs (id INTEGER PRIMARY KEY AUTOINCREMENT,firstName TEXT,lastName TEXT,phone TEXT,address TEXT,postalCode TEXT,email TEXT UNIQUE,password TEXT)";
         try {
             PreparedStatement pstmt = conn.prepareStatement(stmt);
@@ -61,8 +64,9 @@ public class StaffDAO {
         return null;
     }
 
-    public Staff[] getStaffQuery(String query) {
-        String stmt = "SELECT * FROM Staffs WHERE " + query;
+    public List<Staff> getStaffQuery(String query) {
+        String stmt = "SELECT * FROM Staffs " + query;
+
         try (PreparedStatement pstmt = conn.prepareStatement(stmt)) {
             ResultSet rs = pstmt.executeQuery();
 
@@ -78,7 +82,7 @@ public class StaffDAO {
         return null;
     }
 
-    public Staff[] getStaffs() {
+    public List<Staff> getStaffs() {
         String stmt = "SELECT * FROM Staffs";
         try (PreparedStatement pstmt = conn.prepareStatement(stmt)) {
             ResultSet rs = pstmt.executeQuery();
@@ -92,7 +96,7 @@ public class StaffDAO {
             }
 
             // Convert the list to an array
-            return staffList.toArray(new Staff[0]);
+            return staffList;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -150,5 +154,4 @@ public class StaffDAO {
             return false;
         }
     }
-
 }

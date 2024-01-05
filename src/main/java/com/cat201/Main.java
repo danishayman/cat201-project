@@ -10,11 +10,8 @@ import javafx.scene.layout.VBox;
 
 import java.sql.*;
 
-import com.cat201.beans.Staff;
+import com.cat201.controller.AuthController;
 
-import com.cat201.dao.StaffDAO;
-
-import com.cat201.gui.Navbar;
 import com.cat201.utils.Toast;
 
 public class Main extends Application {
@@ -23,16 +20,17 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
-        	VBox root = loader.load();
-			
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
-		
-			// gui initialization
-			// Navbar.createNavbar(root);
 
+		try {
+			AuthController authController = new AuthController(primaryStage, conn);
+			authController.createLogin();
+
+			// FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
+        	// VBox root = loader.load();
+			
+			// Scene scene = new Scene(root);
+			// scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
+		
 			// create button to add staff member
 			// Button addStaffButton = new Button("Add Staff");
 			// addStaffButton.setOnAction(e -> {
@@ -83,9 +81,9 @@ public class Main extends Application {
 			// root.getChildren().add(deleteStaffButton);
 
 
-			primaryStage.setTitle("Law Firm Management System");
-		    primaryStage.setScene(scene);
-		    primaryStage.show();
+			// primaryStage.setTitle("Law Firm Management System");
+		    // primaryStage.setScene(scene);
+		    // primaryStage.show();
 		    
 		} catch(Exception e) {
 			e.printStackTrace();

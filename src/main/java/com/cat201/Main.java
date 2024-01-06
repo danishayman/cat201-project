@@ -17,6 +17,7 @@ public class Main extends Application implements AuthController.LoginCallback {
 
 	@Override
 	public void start(Stage primaryStage) {
+		// uncomment for development
 		showMainPage(primaryStage);
 		// uncomment for production
 		// try {
@@ -38,6 +39,9 @@ public class Main extends Application implements AuthController.LoginCallback {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
 			VBox root = loader.load();
 
+			// Use css file for styling
+			root.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
+
 			primaryStage.setTitle("Main");
 			primaryStage.setScene(new Scene(root));
 			primaryStage.show();
@@ -45,7 +49,7 @@ public class Main extends Application implements AuthController.LoginCallback {
 			e.printStackTrace();
 		}
 
-		// Add navbar controller to main page
+		// Add navbar controller 
 		NavController navController = new NavController(primaryStage, conn);
 		navController.createEventListeners();
 	}

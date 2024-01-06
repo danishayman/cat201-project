@@ -24,11 +24,10 @@ public class NavController {
         Button navStaff = (Button) primaryStage.getScene().lookup("#nav_staffs");
         Button navCase = (Button) primaryStage.getScene().lookup("#nav_cases");
 
-
         navStaff.setOnAction(e -> {
             title.setText("Staff");
-            StaffController staffController = new StaffController(conn);
-            staffController.load();
+            StaffController staffController = new StaffController(primaryStage, conn);
+            staffController.loadTable();
         });
 
     }

@@ -25,10 +25,15 @@ public class NavController {
         Button navCase = (Button) primaryStage.getScene().lookup("#nav_cases");
 
         navStaff.setOnAction(e -> {
-            title.setText("Staff");
+            title.setText("Staffs List");
             StaffController staffController = new StaffController(primaryStage, conn);
             staffController.loadTable();
         });
 
+        navCase.setOnAction(e -> {
+            title.setText("Cases List");
+            CaseController caseController = new CaseController(primaryStage, conn);
+            caseController.loadTable();
+        });
     }
 }

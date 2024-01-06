@@ -2,14 +2,18 @@ package com.cat201.utils;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class Table {
 
@@ -30,6 +34,27 @@ public class Table {
             column.setCellValueFactory(new PropertyValueFactory<>(cellData.get(i)));
             tableView.getColumns().add(column);
         }
+
+        // add details button the last column
+        TableColumn<T, Void> detailColumn = new TableColumn<>("Details");
+        detailColumn.setCellFactory(param -> new TableCell<T, Void>() {
+            private final Button detailButton = new Button("Details");
+
+            {
+                detailButton.setOnAction(event -> {
+                    T data = getTableView().getItems().get(getIndex());
+                    System.out.println("selectedData: " + data);
+                });
+            }
+
+            @Override
+            public void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : detailButton);
+            }
+        });
+        tableView.getColumns().add(detailColumn);
+
 
         // Add data to the table
         tableView.setItems(observableData);

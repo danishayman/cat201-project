@@ -55,7 +55,7 @@ public class CaseDAO {
         return null;
     }
 
-    public Case[] getCaseQuery(String query) {
+    public List<Case> getCaseQuery(String query) {
         String stmt = "SELECT * FROM Cases WHERE " + query;
         try (PreparedStatement pstmt = conn.prepareStatement(stmt)) {
             ResultSet rs = pstmt.executeQuery();
@@ -66,13 +66,14 @@ public class CaseDAO {
                 Case = this.setRsToCase(rs);
                 CaseList.add(Case);
             }
+            return CaseList;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public Case[] getCases() {
+    public List<Case> getCases() {
         String stmt = "SELECT * FROM Cases";
         try (PreparedStatement pstmt = conn.prepareStatement(stmt)) {
             ResultSet rs = pstmt.executeQuery();
@@ -84,9 +85,7 @@ public class CaseDAO {
                 Case = this.setRsToCase(rs);
                 CaseList.add(Case);
             }
-
-            // Convert the list to an array
-            return CaseList.toArray(new Case[0]);
+            return CaseList;
         } catch (SQLException e) {
             e.printStackTrace();
         }

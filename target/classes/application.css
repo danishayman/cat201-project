@@ -14,16 +14,6 @@
   -fx-font-family: "Segoi UI";
 }
 
-.table-view {
-  -fx-border-width: 0;
-  -fx-border-color: transparent;
-  -fx-border-style: none;
-}
-
-.table-view:focused {
-  -fx-text-fill: black;
-}
-
 /* Sidebar */
 #sidebar Button {
   -fx-base: transparent;

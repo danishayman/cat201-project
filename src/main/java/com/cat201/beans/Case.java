@@ -1,5 +1,6 @@
 package com.cat201.beans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Case {
@@ -86,5 +87,27 @@ public class Case {
     public String toString() {
         String str = "Case [id=" + id + ", title=" + title + ", description=" + description + ", status=" + status + ", clientId=" + clientId + ", staffId=" + staffId + ", documentIds=" + documentIds + "]";
         return str;
+    }
+
+    public ArrayList<String> getColumnNames() {
+        ArrayList<String> columnNames = new ArrayList<String>();
+        columnNames.add("ID");
+        columnNames.add("Title");
+        columnNames.add("Description");
+        columnNames.add("Status");
+        columnNames.add("Client ID");
+        columnNames.add("Staff ID");
+        return columnNames;
+    }
+
+    public ArrayList<String> getCellData() {
+        ArrayList<String> cellData = new ArrayList<String>();
+        cellData.add("id");
+        cellData.add("title");
+        cellData.add("description");
+        cellData.add("status");
+        cellData.add("clientId");
+        cellData.add("staffId");
+        return cellData;
     }
 }

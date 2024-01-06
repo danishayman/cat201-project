@@ -12,7 +12,14 @@ public class StaffController {
         staffDAO = new StaffDAO(conn);
     }
 
+    public void load() {
+        // get all staff from database
+        System.out.println("getting all staffs");
+    }
+
     public void createEventListeners() {
         
     }
+
+
 }

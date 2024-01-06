@@ -19,7 +19,7 @@ public class StaffDAO {
     public StaffDAO(Connection conn) {
         this.conn = conn;
         
-        String stmt = "CREATE TABLE IF NOT EXISTS Staffs (id INTEGER PRIMARY KEY AUTOINCREMENT,firstName TEXT,lastName TEXT,phone TEXT,address TEXT,postalCode TEXT,email TEXT UNIQUE,password TEXT)";
+        String stmt = "CREATE TABLE IF NOT EXISTS Staffs (id INTEGER PRIMARY KEY AUTOINCREMENT,firstName TEXT,lastName TEXT,phone TEXT,address TEXT,email TEXT UNIQUE,password TEXT)";
         try {
             PreparedStatement pstmt = conn.prepareStatement(stmt);
             pstmt.executeUpdate();
@@ -36,7 +36,6 @@ public class StaffDAO {
             staff.setLastName(rs.getString("lastName"));
             staff.setPhone(rs.getString("phone"));
             staff.setAddress(rs.getString("address"));
-            staff.setPostalCode(rs.getString("postalCode"));
             staff.setEmail(rs.getString("email"));
             staff.setPassword(rs.getString("password"));
         } catch (SQLException e) {
@@ -76,6 +75,7 @@ public class StaffDAO {
                 staff = this.setRsToStaff(rs);
                 staffList.add(staff);
             }
+            return staffList;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -104,15 +104,14 @@ public class StaffDAO {
     }
 
     public boolean addStaff(Staff Staff) {
-        String stmt = "INSERT INTO Staffs (firstName, lastName, phone, address, postalCode,email, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String stmt = "INSERT INTO Staffs (firstName, lastName, phone, address, email, password) VALUES (?, ?, ?, ?, ?, ?)";
         try(PreparedStatement pstmt = conn.prepareStatement(stmt)) {
             pstmt.setString(1, Staff.getFirstName());
             pstmt.setString(2, Staff.getLastName());
             pstmt.setString(3, Staff.getPhone());
             pstmt.setString(4, Staff.getAddress());
-            pstmt.setString(5, Staff.getPostalCode());
-            pstmt.setString(6, Staff.getEmail());
-            pstmt.setString(7, Staff.getPassword());
+            pstmt.setString(5, Staff.getEmail());
+            pstmt.setString(6, Staff.getPassword());
             pstmt.executeUpdate();
             return true;
         }
@@ -123,16 +122,15 @@ public class StaffDAO {
     }
 
     public boolean updateStaff(Staff Staff) {
-        String stmt = "UPDATE Staffs SET firstName = ?, lastName = ?, phone = ?, address = ?, postalCode = ?, email = ?, password = ? WHERE id = ?";
+        String stmt = "UPDATE Staffs SET firstName = ?, lastName = ?, phone = ?, address = ?, email = ?, password = ? WHERE id = ?";
         try(PreparedStatement pstmt = conn.prepareStatement(stmt)) {
             pstmt.setString(1, Staff.getFirstName());
             pstmt.setString(2, Staff.getLastName());
             pstmt.setString(3, Staff.getPhone());
             pstmt.setString(4, Staff.getAddress());
-            pstmt.setString(5, Staff.getPostalCode());
-            pstmt.setString(6, Staff.getEmail());
-            pstmt.setString(7, Staff.getPassword());
-            pstmt.setInt(8, Staff.getId());
+            pstmt.setString(5, Staff.getEmail());
+            pstmt.setString(6, Staff.getPassword());
+            pstmt.setInt(7, Staff.getId());
             pstmt.executeUpdate();
             return true;
         }

@@ -51,7 +51,7 @@
                   <Image url="@images/loginbg.png" />
                </image>
             </ImageView>
-            <TextField id="login_username" layoutX="335.0" layoutY="309.0" prefHeight="49.0" prefWidth="354.0" promptText="Email address" style="-fx-border-radius: 100;" />
+            <TextField id="login_email" layoutX="335.0" layoutY="309.0" prefHeight="49.0" prefWidth="354.0" promptText="Email address" style="-fx-border-radius: 100;" />
             <TextField id="login_password" layoutX="335.0" layoutY="370.0" prefHeight="49.0" prefWidth="354.0" promptText="Password" style="-fx-border-radius: 100;" />
             <Button id="loginButton" layoutX="335.0" layoutY="432.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="354.0" text="Login" />
             <Hyperlink id="signupLink" layoutX="565.0" layoutY="498.0" text="Sign Up">

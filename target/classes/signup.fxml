@@ -51,24 +51,28 @@
                   <Image url="@images/loginbg.png" />
                </image>
             </ImageView>
-            <TextField id="signup_username" layoutX="335.0" layoutY="309.0" prefHeight="49.0" prefWidth="354.0" promptText="Email address" style="-fx-border-radius: 100;" />
-            <TextField id="signup_password" layoutX="335.0" layoutY="370.0" prefHeight="49.0" prefWidth="354.0" promptText="Password" style="-fx-border-radius: 100;" />
-            <Button id="signupButton" layoutX="335.0" layoutY="432.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="354.0" text="Sign Up" />
-            <Hyperlink id="loginLink" layoutX="565.0" layoutY="498.0" text="Login">
+            <TextField id="signup_email" layoutX="335.0" layoutY="196.0" prefHeight="49.0" prefWidth="354.0" promptText="Email address" style="-fx-border-radius: 100;" />
+            <TextField id="signup_password" layoutX="335.0" layoutY="252.0" prefHeight="49.0" prefWidth="354.0" promptText="Password" style="-fx-border-radius: 100;" />
+            <Button id="signupButton" layoutX="335.0" layoutY="561.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="354.0" text="Sign Up" />
+            <Hyperlink id="loginLink" layoutX="565.0" layoutY="623.0" text="Login">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Hyperlink>
-            <Text fill="#fcfcfc" layoutX="394.0" layoutY="518.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Already have an account?">
+            <Text fill="#fcfcfc" layoutX="394.0" layoutY="643.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Already have an account?">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <Text fill="WHITE" layoutX="442.0" layoutY="283.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign Up">
+            <Text fill="WHITE" layoutX="442.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign Up">
                <font>
                   <Font name="System Bold" size="38.0" />
                </font>
             </Text>
+            <TextField id="signup_phone" layoutX="335.0" layoutY="423.0" prefHeight="49.0" prefWidth="354.0" promptText="Phone number" style="-fx-border-radius: 100;" />
+            <TextField id="signup_address" layoutX="335.0" layoutY="479.0" prefHeight="74.0" prefWidth="354.0" promptText="Address" style="-fx-border-radius: 100;" />
+            <TextField id="signup_firstname" layoutX="335.0" layoutY="308.0" prefHeight="49.0" prefWidth="354.0" promptText="First Name" style="-fx-border-radius: 100;" />
+            <TextField id="signup_lastname" layoutX="335.0" layoutY="365.0" prefHeight="49.0" prefWidth="354.0" promptText="Last Name" style="-fx-border-radius: 100;" />
          </children>
       </AnchorPane>
    </children>

@@ -7,7 +7,6 @@ public class User {
 
     private String phone;
     private String address;
-    private String postalCode;
 
     private String email;
     private String password;
@@ -15,13 +14,12 @@ public class User {
     public User() {
     }
 
-    public User(int id, String firstName, String lastName, String phone, String address, String postalCode, String email, String password) {
+    public User(int id, String firstName, String lastName, String phone, String address, String email, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
         this.address = address;
-        this.postalCode = postalCode;
         this.email = email;
         this.password = password;
     }
@@ -47,9 +45,6 @@ public class User {
         return address;
     }
 
-    public String getPostalCode() {
-        return postalCode;
-    }
 
     public String getEmail() {
         return email;
@@ -81,9 +76,6 @@ public class User {
         this.address = address;
     }
 
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -95,7 +87,7 @@ public class User {
 
     @Override
     public String toString(){
-        String str = "User: " + this.id + " " + this.firstName + " " + this.lastName + " " + this.phone + " " + this.address + " " + this.postalCode + " " + " " + this.email + " " + this.password;
+        String str = "User: " + this.id + " " + this.firstName + " " + this.lastName + " " + this.phone + " " + this.address + " " + this.email + " " + this.password;
         return str;
     }
 }

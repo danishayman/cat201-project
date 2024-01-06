@@ -47,11 +47,11 @@
       <SplitPane dividerPositions="0.22211350293542073" prefHeight="768.0" prefWidth="1024.0">
         <items>
           <AnchorPane id="sidebar" minHeight="0.0" minWidth="0.0" prefHeight="719.0" prefWidth="497.0" style="-fx-background-color: efeff2;">
-               <children>
-                  <Button alignment="CENTER" layoutX="-10.0" layoutY="27.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="236.0" text="Home" />
-                  <Button alignment="CENTER" layoutX="-8.0" layoutY="81.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="236.0" text="Clients" />
-                  <Button alignment="CENTER" layoutX="-8.0" layoutY="135.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="236.0" text="Staffs" />
-                  <Button alignment="CENTER" layoutX="-10.0" layoutY="190.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="236.0" text="Cases" />
+            <children>
+                  <Button id="nav_home" alignment="CENTER" layoutX="-10.0" layoutY="27.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="236.0" text="Home" />
+                  <Button id="nav_clients" alignment="CENTER" layoutX="-8.0" layoutY="81.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="236.0" text="Clients" />
+                  <Button id="nav_staffs" alignment="CENTER" layoutX="-8.0" layoutY="135.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="236.0" text="Staffs" />
+                  <Button id="nav_cases" alignment="CENTER" layoutX="-10.0" layoutY="190.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="236.0" text="Cases" />
                   <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="26.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@icons/home.png" />
@@ -77,7 +77,7 @@
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="602.0" prefWidth="120.0" style="-fx-background-color: ffffff;">
                <children>
                   <ScrollPane id="main" layoutX="24.0" layoutY="82.0" prefHeight="642.0" prefWidth="754.0" style="-fx-base: ffffff;" />
-                  <Text layoutX="17.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title Here">
+                  <Text id="main_title" layoutX="17.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title Here">
                      <font>
                         <Font name="System Bold" size="22.0" />
                      </font>

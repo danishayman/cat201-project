@@ -63,9 +63,7 @@ public class StaffDAO {
         return null;
     }
 
-    public List<Staff> getStaffQuery(String query) {
-        String stmt = "SELECT * FROM Staffs " + query;
-
+    public List<Staff> getStaffQuery(String stmt) {
         try (PreparedStatement pstmt = conn.prepareStatement(stmt)) {
             ResultSet rs = pstmt.executeQuery();
 

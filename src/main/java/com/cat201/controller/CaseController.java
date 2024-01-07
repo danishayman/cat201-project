@@ -27,12 +27,19 @@ public class CaseController {
     private Pane mainContent;
     private Text title;
 
+    private ArrayList<String> colNames;
+    private ArrayList<String> cellData;
+
     public CaseController(Stage primaryStage, Connection conn) {
         this.primaryStage = primaryStage;
         caseDAO = new CaseDAO(conn);
         tableView = new TableView<>();
         mainContent = (Pane) primaryStage.getScene().lookup("#main_content");
         title = (Text) primaryStage.getScene().lookup("#main_title");
+
+        Case caseobj = new Case();
+        colNames = caseobj.getColumnNames();
+        cellData = caseobj.getCellData();
     }
 
     public void load() {
@@ -40,16 +47,18 @@ public class CaseController {
         
         // Fetch data from the database
         List<Case> cases = fetchData();
+
+        // Search button functionality
+        Button searchButton = (Button) primaryStage.getScene().lookup("#main_searchbtn");
+        searchButton.setOnAction(e -> {
+            searchData();
+        });
         
-        // Add add button functionality
+        // Add button functionality
         Button addButton = (Button) primaryStage.getScene().lookup("#main_addbtn");
         addButton.setOnAction(e -> {
             changeToAddCase();
         });
-
-        Case caseobj = new Case();
-        ArrayList<String> colNames = caseobj.getColumnNames();
-        ArrayList<String> cellData = caseobj.getCellData();
 
         // Generate table
         Table.generateTable(cases, tableView, mainContent, colNames, cellData);
@@ -57,6 +66,19 @@ public class CaseController {
 
     private List<Case> fetchData() {
         return caseDAO.getCases();
+    }
+
+    private void searchData() {
+        TextField searchField = (TextField) primaryStage.getScene().lookup("#main_searchinput");
+        String searchQuery = searchField.getText();
+        // List<Case> cases = caseDAO.getCaseQuery(searchQuery);
+
+        // Case caseobj = new Case();
+        // ArrayList<String> colNames = caseobj.getColumnNames();
+        // ArrayList<String> cellData = caseobj.getCellData();
+
+        // // Generate table
+        // Table.generateTable(cases, tableView, mainContent, colNames, cellData);
     }
 
     private void changeToAddCase() {

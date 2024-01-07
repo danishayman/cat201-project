@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import com.cat201.beans.Case;
 import com.cat201.beans.Staff;
 
 import com.cat201.dao.StaffDAO;
@@ -26,12 +27,20 @@ public class StaffController {
     private Pane mainContent;
     private Text title;
 
+    private ArrayList<String> colNames;
+    private ArrayList<String> cellData;
+
     public StaffController(Stage primaryStage, Connection conn) {
         this.primaryStage = primaryStage;
         staffDAO = new StaffDAO(conn);
         tableView = new TableView<>();
         mainContent = (Pane) primaryStage.getScene().lookup("#main_content");
         title = (Text) primaryStage.getScene().lookup("#main_title");
+
+        // Get column names and cell data
+        Staff staffobj = new Staff();
+        colNames = staffobj.getColumnNames();
+        cellData = staffobj.getCellData();
     }
 
     public void load() {
@@ -39,16 +48,17 @@ public class StaffController {
         // Fetch data from the database
         List<Staff> staffs = fetchData(); 
 
-        // Add add button functionality
+        // Search button functionality
+        Button searchButton = (Button) primaryStage.getScene().lookup("#main_searchbtn");
+        searchButton.setOnAction(e -> {
+            searchData();
+        });
+
+        // Add button functionality
         Button addButton = (Button) primaryStage.getScene().lookup("#main_addbtn");
         addButton.setOnAction(e -> {
             changeToAddStaff();
         });
-
-        // Get column names and cell data
-        Staff staff = new Staff();
-        ArrayList<String> colNames = staff.getColumnNames();
-        ArrayList<String> cellData = staff.getCellData();
 
         // Generate table
         Table.generateTable(staffs, tableView, mainContent, colNames, cellData);
@@ -56,6 +66,29 @@ public class StaffController {
 
     private List<Staff> fetchData() {
         return staffDAO.getStaffs();
+    }
+
+    private void searchData() {
+        TextField searchField = (TextField) primaryStage.getScene().lookup("#main_searchinput");
+        String searchInput = searchField.getText();
+
+        // If search input is empty, return
+        if(searchInput.equals("")) return;
+
+        String stmt = "SELECT * FROM Staffs " +
+                     "WHERE firstName LIKE '%" + searchInput + "%' " +
+                     "   OR lastName LIKE '%" + searchInput + "%' " +
+                     "   OR phone LIKE '%" + searchInput + "%' " +
+                     "   OR address LIKE '%" + searchInput + "%' " +
+                     "   OR email LIKE '%" + searchInput + "%'";
+        List<Staff> staffs = staffDAO.getStaffQuery(stmt);
+
+        Staff staffobj = new Staff();
+        ArrayList<String> colNames = staffobj.getColumnNames();
+        ArrayList<String> cellData = staffobj.getCellData();
+
+        // Generate table
+        Table.generateTable(staffs, tableView, mainContent, colNames, cellData);
     }
 
     public void changeToAddStaff() {

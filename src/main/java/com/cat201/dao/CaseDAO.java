@@ -55,8 +55,7 @@ public class CaseDAO {
         return null;
     }
 
-    public List<Case> getCaseQuery(String query) {
-        String stmt = "SELECT * FROM Cases WHERE " + query;
+    public List<Case> getCaseQuery(String stmt) {
         try (PreparedStatement pstmt = conn.prepareStatement(stmt)) {
             ResultSet rs = pstmt.executeQuery();
 

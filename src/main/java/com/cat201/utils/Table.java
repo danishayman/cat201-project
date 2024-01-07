@@ -3,7 +3,6 @@ package com.cat201.utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -22,7 +21,14 @@ public class Table {
         ArrayList<String> getCellData();
     }
 
-    public static <T> void generateTable(List<T> data, ScrollPane mainContent, TableView<T> tableView, Stage primaryStage, ArrayList<String> colNames, ArrayList<String> cellData) {
+    public static <T> void generateTable(List<T> data, TableView<T> tableView, Pane mainContent, ArrayList<String> colNames, ArrayList<String> cellData) {
+
+        if(data.size() == 0) {
+            mainContent.getChildren().clear();
+            mainContent.getChildren().add(new Button("No data found"));
+            return;
+        }
+
         // Assuming you have a proper model class
         ObservableList<T> observableData = FXCollections.observableArrayList(data);
 
@@ -65,8 +71,7 @@ public class Table {
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tableView.getStyleClass().add("table-view");
 
-        Pane main = (Pane) primaryStage.getScene().lookup("#main_content");
-        main.getChildren().clear();
-        main.getChildren().add(tableView);
+        mainContent.getChildren().clear();
+        mainContent.getChildren().add(tableView);
     }
 }

@@ -10,7 +10,7 @@
 }
 
 .root {
-  -fx-font-size: 12pt;
+  /* -fx-font-size: 12pt; */
   -fx-font-family: "Segoi UI";
 }
 

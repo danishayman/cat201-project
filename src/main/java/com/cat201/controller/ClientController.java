@@ -16,6 +16,7 @@ import com.cat201.beans.Client;
 import com.cat201.dao.ClientDAO;
 import com.cat201.utils.Form;
 import com.cat201.utils.Table;
+import com.cat201.utils.Toast;
 
 public class ClientController {
     
@@ -95,11 +96,27 @@ public class ClientController {
     }
 
     public void changeToDetailClient(Client data) {
-        Form.changeToDetailForm(data, title, mainContent, primaryStage, colNames, this::updateSubmit);
+        Form.changeToDetailForm(data, title, mainContent, primaryStage, colNames, this::updateSubmit, this::deleteSubmit);
     }
 
     private void updateSubmit(ArrayList<String> newdata) {
-        System.out.println(newdata);
-        // clientDAO.updateClient(client);
+        
+        Client newClient = new Client();
+        newClient.setID(Integer.parseInt(newdata.get(0)));
+        newClient.setFirstName(newdata.get(1));
+        newClient.setLastName(newdata.get(2));
+        newClient.setPhone(newdata.get(3));
+        newClient.setEmail(newdata.get(4));
+        newClient.setCreatedBy(newdata.get(5));
+        boolean response = clientDAO.updateClient(newClient);
+        if(response) {
+            Toast.get().showSuccess("Client updated successfully");
+        } else {
+            Toast.get().showError("Client update failed");
+        }
+    }
+
+    private void deleteSubmit(Integer id) {
+        // clientDAO.deleteClient(id);
     }
 }

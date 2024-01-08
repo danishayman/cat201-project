@@ -10,19 +10,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Form {
-
-    private static void hideVisibility(Stage primaryStage) {
-        TextField searchField = (TextField) primaryStage.getScene().lookup("#main_searchinput");
-        searchField.setVisible(false);
-        Button addButton = (Button) primaryStage.getScene().lookup("#main_addbtn");
-        addButton.setVisible(false);
-        Button searchButton = (Button) primaryStage.getScene().lookup("#main_searchbtn");
-        searchButton.setVisible(false);
-    }
     
     public static <T> void changeToAddForm(Text title, Pane mainContent, Stage primaryStage, ArrayList<String> colNames, ArrayList<String> cellData) {
         title.setText("Add Staff");
-        Form.hideVisibility(primaryStage);
+        Utils.get().hide();
 
         Pane addStaffForm = new Pane();
 
@@ -39,12 +30,24 @@ public class Form {
         mainContent.getChildren().add(addStaffForm);
     }
 
-    public static <T> void changeToDetailForm(T data, Text title, Pane mainContent, Stage primaryStage, ArrayList<String> colNames, Consumer<ArrayList<String>> callback) {
+    // DETAIL FORM - UPDATE + DELETE
+    public static <T> void changeToDetailForm(T data, Text title, Pane mainContent, Stage primaryStage, ArrayList<String> colNames, Consumer<ArrayList<String>> updateCallback, Consumer<Integer> deleteCallback) {
         title.setText("Staff Details");
-        Form.hideVisibility(primaryStage);
+        Utils.get().hide();
 
         Pane detailForm = new Pane();
-    
+
+        createTextFields(data, colNames, detailForm);
+        createSubmitButton(data, colNames, detailForm, updateCallback);
+        createDeleteButton(data, colNames, detailForm, deleteCallback);
+
+        detailForm.prefWidthProperty().bind(mainContent.widthProperty());
+        mainContent.getChildren().clear();
+        mainContent.getChildren().add(detailForm);
+    }
+
+    // ADD FORM
+    private static <T> void createTextFields(T data, ArrayList<String> colNames, Pane detailForm) {
         for(int i=0; i<colNames.size(); i++) {
             TextField textField = new TextField();
             textField.setPromptText(colNames.get(i));
@@ -67,8 +70,10 @@ public class Form {
             }
             detailForm.getChildren().add(textField);
         }
+    }
 
-        // add submit button
+    // SUBMIT BUTTON
+    private static <T> void createSubmitButton(T data, ArrayList<String> colNames, Pane detailForm, Consumer<ArrayList<String>> callback ) {
         Button submitButton = new Button("Submit");
         submitButton.setLayoutY(100 + colNames.size()*50);
 
@@ -84,13 +89,19 @@ public class Form {
             }
             callback.accept(newdata);
         });
-
         detailForm.getChildren().add(submitButton);
-        detailForm.prefWidthProperty().bind(mainContent.widthProperty());
-
-        mainContent.getChildren().clear();
-        mainContent.getChildren().add(detailForm);
     }
 
+    private static <T> void createDeleteButton(T data, ArrayList<String> colNames, Pane detailForm, Consumer<Integer> callback) {
+        Button deleteButton = new Button("Delete");
+        deleteButton.setLayoutX(100 + colNames.size()*50);
+        deleteButton.setLayoutY(100 + colNames.size()*50);
+        deleteButton.getStyleClass().add("delete-button");
 
+        deleteButton.setOnAction(e -> {
+            int id = Integer.parseInt(((TextField) detailForm.getChildren().get(0)).getText());
+            callback.accept(id);
+        });
+        detailForm.getChildren().add(deleteButton);
+    }
 }

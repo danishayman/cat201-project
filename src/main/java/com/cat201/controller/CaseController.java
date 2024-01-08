@@ -85,12 +85,15 @@ public class CaseController {
     }
 
     public void changeToDetailCase(Case caseobj) {
-        Form.changeToDetailForm(caseobj, title, mainContent, primaryStage, colNames, this::updateSubmit);
+        Form.changeToDetailForm(caseobj, title, mainContent, primaryStage, colNames, this::updateAction, this::deleteAction);
     }
 
-    private void updateSubmit(ArrayList<String> newdata) {
-        System.out.println(newdata);
+    private void updateAction(ArrayList<String> newdata) {
         // caseDAO.updateCase(caseobj);
+    }
+
+    private void deleteAction(Integer id) {
+        // caseDAO.deleteCase(id);
     }
 }
 

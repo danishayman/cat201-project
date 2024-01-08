@@ -10,6 +10,7 @@ import java.sql.*;
 
 import com.cat201.controller.AuthController;
 import com.cat201.controller.NavController;
+import com.cat201.utils.Utils;
 
 public class Main extends Application implements AuthController.LoginCallback {
 
@@ -35,6 +36,7 @@ public class Main extends Application implements AuthController.LoginCallback {
 	}
 
 	public void showMainPage(Stage primaryStage) {
+		Utils.get().setPrimaryStage(primaryStage);
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
 			VBox root = loader.load();

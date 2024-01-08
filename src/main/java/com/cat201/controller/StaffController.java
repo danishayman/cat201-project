@@ -96,10 +96,10 @@ public class StaffController {
     }
 
     public void changeToDetailStaff(Staff data) {
-        Form.changeToDetailForm(data, title, mainContent, primaryStage, colNames, this::updateSubmit);
+        Form.changeToDetailForm(data, title, mainContent, primaryStage, colNames, this::updateAction, this::deleteAction);
     }
 
-    public void updateSubmit(ArrayList<String> newdata) {
+    public void updateAction(ArrayList<String> newdata) {
         Staff newStaff = new Staff();
         newStaff.setID(Integer.parseInt(newdata.get(0)));
         newStaff.setFirstName(newdata.get(1));
@@ -113,6 +113,16 @@ public class StaffController {
             Toast.get().showSuccess("Staff updated successfully");
         } else {
             Toast.get().showError("Error updating staff");
+        }
+    }
+
+    public void deleteAction(int id) {
+        boolean response = staffDAO.deleteStaff(id);
+        if(response) {
+            Toast.get().showSuccess("Staff deleted successfully");
+            load();
+        } else {
+            Toast.get().showError("Error deleting staff");
         }
     }
 }

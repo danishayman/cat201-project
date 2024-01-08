@@ -1,12 +1,13 @@
 package com.cat201.controller;
 
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.sql.Connection;
+
+import com.cat201.utils.Utils;
 
 public class NavController {
 
@@ -33,19 +34,19 @@ public class NavController {
         });
 
         navClient.setOnAction(e-> {
-            showVisibility();
+            Utils.get().show();
             ClientController clientController = new ClientController(primaryStage, conn, mainContent);
             clientController.load();
         });
 
         navStaff.setOnAction(e -> {
-            showVisibility();
+            Utils.get().show();
             StaffController staffController = new StaffController(primaryStage, conn, mainContent);
             staffController.load();
         });
 
         navCase.setOnAction(e -> {
-            showVisibility();
+            Utils.get().show();
             CaseController caseController = new CaseController(primaryStage, conn, mainContent);
             caseController.load();
         });
@@ -55,25 +56,6 @@ public class NavController {
         Text title = (Text) primaryStage.getScene().lookup("#main_title");
         title.setText("Dashboard");
         // Hide search and add button in the homepage
-        hideVisibility();
-    }
-
-    private void hideVisibility() {
-        TextField searchField = (TextField) primaryStage.getScene().lookup("#main_searchinput");
-        searchField.setVisible(false);
-        Button addButton = (Button) primaryStage.getScene().lookup("#main_addbtn");
-        addButton.setVisible(false);
-        Button searchButton = (Button) primaryStage.getScene().lookup("#main_searchbtn");
-        searchButton.setVisible(false);
-    }
-
-
-    private void showVisibility() {
-        TextField searchField = (TextField) primaryStage.getScene().lookup("#main_searchinput");
-        searchField.setVisible(true);
-        Button addButton = (Button) primaryStage.getScene().lookup("#main_addbtn");
-        addButton.setVisible(true);
-        Button searchButton = (Button) primaryStage.getScene().lookup("#main_searchbtn");
-        searchButton.setVisible(true);
+        Utils.get().hide();
     }
 }

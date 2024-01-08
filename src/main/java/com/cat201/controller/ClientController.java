@@ -17,6 +17,7 @@ import com.cat201.dao.ClientDAO;
 import com.cat201.utils.Form;
 import com.cat201.utils.Table;
 import com.cat201.utils.Toast;
+import com.cat201.utils.Utils;
 
 public class ClientController {
     
@@ -134,6 +135,8 @@ public class ClientController {
         boolean response = clientDAO.deleteClient(id);
         if(response) {
             Toast.get().showSuccess("Client deleted successfully");
+            Utils.get().show();
+            load();
         } else {
             Toast.get().showError("Client delete failed");
         }

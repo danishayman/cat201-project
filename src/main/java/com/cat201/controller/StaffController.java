@@ -17,6 +17,7 @@ import com.cat201.dao.StaffDAO;
 import com.cat201.utils.Form;
 import com.cat201.utils.Table;
 import com.cat201.utils.Toast;
+import com.cat201.utils.Utils;
 
 public class StaffController {
     
@@ -45,6 +46,7 @@ public class StaffController {
 
     public void load() {
         title.setText("Staffs List");
+        Utils.get().show();
         // Fetch data from the database
         List<Staff> staffs = fetchData(); 
 

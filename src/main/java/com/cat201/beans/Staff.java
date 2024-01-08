@@ -18,7 +18,7 @@ public class Staff extends User {
         columnNames.add("ID");
         columnNames.add("First Name");
         columnNames.add("Last Name");
-        columnNames.add("Phone Number");
+        columnNames.add("Phone");
         columnNames.add("Address");
         columnNames.add("Email");
         // columnNames.add("Password");
@@ -27,7 +27,7 @@ public class Staff extends User {
 
     public ArrayList<String> getCellData() {
         ArrayList<String> cellData = new ArrayList<String>();
-        cellData.add("id");
+        cellData.add("ID");
         cellData.add("firstName");
         cellData.add("lastName");
         cellData.add("phone");

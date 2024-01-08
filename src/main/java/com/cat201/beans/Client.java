@@ -24,7 +24,7 @@ public class Client {
 
     // Getters
 
-    public int getId() {
+    public int getID() {
         return id; 
     }
 
@@ -50,7 +50,7 @@ public class Client {
 
     // Setters
 
-    public void setId(int id) {
+    public void setID(int id) {
         this.id = id; 
     }
 
@@ -92,7 +92,7 @@ public class Client {
 
     public ArrayList<String> getCellData() {
         ArrayList<String> cellData = new ArrayList<>();
-        cellData.add("id");
+        cellData.add("ID");
         cellData.add("firstName");
         cellData.add("lastName");
         cellData.add("phone");

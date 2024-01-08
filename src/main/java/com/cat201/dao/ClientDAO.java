@@ -27,7 +27,7 @@ public class ClientDAO {
     public Client setRsToClient(ResultSet rs) {
         Client client = new Client();
         try {
-            client.setId(rs.getInt("id"));
+            client.setID(rs.getInt("id"));
             client.setFirstName(rs.getString("firstName"));
             client.setLastName(rs.getString("lastName"));
             client.setPhone(rs.getString("phone"));
@@ -117,7 +117,7 @@ public class ClientDAO {
             pstmt.setString(3, client.getPhone());
             pstmt.setString(4, client.getEmail());
             pstmt.setString(5, client.getCreatedBy());
-            pstmt.setInt(6, client.getId());
+            pstmt.setInt(6, client.getID());
             pstmt.executeUpdate();
             return true;
         } catch (SQLException e) {

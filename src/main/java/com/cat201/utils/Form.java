@@ -1,7 +1,7 @@
 package com.cat201.utils;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.function.Consumer;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -32,7 +32,6 @@ public class Form {
         for(int i=0; i<colNames.size(); i++) {
             TextField textField = new TextField();
             textField.setPromptText(colNames.get(i));
-            textField.setLayoutX(100);
             textField.setLayoutY(100 + i*50);
             addStaffForm.getChildren().add(textField);
         }
@@ -40,32 +39,58 @@ public class Form {
         mainContent.getChildren().add(addStaffForm);
     }
 
-    public static <T> void changeToDetailForm(T data, Text title, Pane mainContent, Stage primaryStage, ArrayList<String> colNames, ArrayList<String> cellData) {
+    public static <T> void changeToDetailForm(T data, Text title, Pane mainContent, Stage primaryStage, ArrayList<String> colNames, Consumer<ArrayList<String>> callback) {
         title.setText("Staff Details");
         Form.hideVisibility(primaryStage);
 
         Pane detailForm = new Pane();
-
-        // clear the main anchor pane
-        mainContent.getChildren().clear();
     
         for(int i=0; i<colNames.size(); i++) {
             TextField textField = new TextField();
             textField.setPromptText(colNames.get(i));
-            textField.setText(cellData.get(i));
-            textField.setLayoutX(100);
+            textField.setMaxWidth(Double.MAX_VALUE);
+            textField.prefWidthProperty().bind(detailForm.widthProperty());
+            // invoke the getter method from the object
+            try {
+                String methodName = "get" + String.join("", colNames.get(i).split(" "));
+                Object result = data.getClass().getMethod(methodName).invoke(data);
+            
+                // Convert the result to String before setting it in the textField
+                textField.setText(String.valueOf(result));
+            } catch (Exception e) {
+                e.printStackTrace(); // Handle the exception appropriately
+            }
+
             textField.setLayoutY(100 + i*50);
-            textField.setEditable(true);
+            if(colNames.get(i) == "ID") {
+                textField.setEditable(false);
+            }
             detailForm.getChildren().add(textField);
         }
 
-        // add the values to the textfields
-        for(int i=0; i<colNames.size(); i++) {
-            TextField textField = (TextField) detailForm.getChildren().get(i);
-            textField.setText(cellData.get(i));
-        }
+        // add submit button
+        Button submitButton = new Button("Submit");
+        submitButton.setLayoutY(100 + colNames.size()*50);
 
+        submitButton.setOnAction(e -> {
+            ArrayList<String> newdata = new ArrayList<>();
+            for(int i=0; i<colNames.size(); i++) {
+                TextField textField = (TextField) detailForm.getChildren().get(i);
+                if(textField.getText().equals("")) {
+                    Toast.get().showError(colNames.get(i) + " cannot be empty");
+                    return;
+                }
+                newdata.add(textField.getText());
+            }
+            callback.accept(newdata);
+        });
+
+        detailForm.getChildren().add(submitButton);
+        detailForm.prefWidthProperty().bind(mainContent.widthProperty());
+
+        mainContent.getChildren().clear();
         mainContent.getChildren().add(detailForm);
     }
+
 
 }

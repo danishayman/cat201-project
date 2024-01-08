@@ -12,7 +12,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import com.cat201.beans.Case;
-import com.cat201.beans.Case;
 import com.cat201.dao.CaseDAO;
 import com.cat201.utils.Form;
 import com.cat201.utils.Table;
@@ -86,7 +85,12 @@ public class CaseController {
     }
 
     public void changeToDetailCase(Case caseobj) {
-        Form.changeToDetailForm(caseobj, title, mainContent, primaryStage, colNames, cellData);
+        Form.changeToDetailForm(caseobj, title, mainContent, primaryStage, colNames, this::updateSubmit);
+    }
+
+    private void updateSubmit(ArrayList<String> newdata) {
+        System.out.println(newdata);
+        // caseDAO.updateCase(caseobj);
     }
 }
 

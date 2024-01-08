@@ -31,7 +31,7 @@ public class StaffDAO {
     public Staff setRsToStaff(ResultSet rs) {
         Staff staff = new Staff();
         try {
-            staff.setId(rs.getInt("id"));
+            staff.setID(rs.getInt("id"));
             staff.setFirstName(rs.getString("firstName"));
             staff.setLastName(rs.getString("lastName"));
             staff.setPhone(rs.getString("phone"));
@@ -128,7 +128,7 @@ public class StaffDAO {
             pstmt.setString(4, Staff.getAddress());
             pstmt.setString(5, Staff.getEmail());
             pstmt.setString(6, Staff.getPassword());
-            pstmt.setInt(7, Staff.getId());
+            pstmt.setInt(7, Staff.getID());
             pstmt.executeUpdate();
             return true;
         }

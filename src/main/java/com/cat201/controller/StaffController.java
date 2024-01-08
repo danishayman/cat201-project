@@ -16,6 +16,7 @@ import com.cat201.beans.Staff;
 import com.cat201.dao.StaffDAO;
 import com.cat201.utils.Form;
 import com.cat201.utils.Table;
+import com.cat201.utils.Toast;
 
 public class StaffController {
     
@@ -95,6 +96,23 @@ public class StaffController {
     }
 
     public void changeToDetailStaff(Staff data) {
-        Form.changeToDetailForm(data, title, mainContent, primaryStage, colNames, cellData);
+        Form.changeToDetailForm(data, title, mainContent, primaryStage, colNames, this::updateSubmit);
+    }
+
+    public void updateSubmit(ArrayList<String> newdata) {
+        Staff newStaff = new Staff();
+        newStaff.setID(Integer.parseInt(newdata.get(0)));
+        newStaff.setFirstName(newdata.get(1));
+        newStaff.setLastName(newdata.get(2));
+        newStaff.setPhone(newdata.get(3));
+        newStaff.setAddress(newdata.get(4));
+        newStaff.setEmail(newdata.get(5));
+        // System.out.println(newStaff);
+        boolean response = staffDAO.updateStaff(newStaff);
+        if(response) {
+            Toast.get().showSuccess("Staff updated successfully");
+        } else {
+            Toast.get().showError("Error updating staff");
+        }
     }
 }

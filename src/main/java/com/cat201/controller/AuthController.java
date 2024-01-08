@@ -94,7 +94,7 @@ public class AuthController {
         String password = ((javafx.scene.control.TextField) root.lookup("#login_password")).getText();
 
         if(email.equals("") || password.equals("")) {
-            System.out.println("Email or password is empty");
+            Toast.get().showError("Email or password is empty");
             return;
         }
 

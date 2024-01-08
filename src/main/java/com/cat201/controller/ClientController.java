@@ -95,6 +95,11 @@ public class ClientController {
     }
 
     public void changeToDetailClient(Client data) {
-        Form.changeToDetailForm(data, title, mainContent, primaryStage, colNames, cellData);
+        Form.changeToDetailForm(data, title, mainContent, primaryStage, colNames, this::updateSubmit);
+    }
+
+    private void updateSubmit(ArrayList<String> newdata) {
+        System.out.println(newdata);
+        // clientDAO.updateClient(client);
     }
 }

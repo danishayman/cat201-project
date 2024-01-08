@@ -26,7 +26,7 @@ public class Case {
     }
 
     // Getters
-    public int getId() {
+    public int getID() {
         return id;
     }
 
@@ -55,7 +55,7 @@ public class Case {
     }
 
     // Setters
-    public void setId(int id) {
+    public void setID(int id) {
         this.id = id;
     }
 
@@ -71,7 +71,7 @@ public class Case {
         this.status = status;
     }
 
-    public void setclientId(String clientId){
+    public void setClientId(String clientId){
         this.clientId = clientId;
     }
 
@@ -102,7 +102,7 @@ public class Case {
 
     public ArrayList<String> getCellData() {
         ArrayList<String> cellData = new ArrayList<String>();
-        cellData.add("id");
+        cellData.add("ID");
         cellData.add("title");
         cellData.add("description");
         cellData.add("status");

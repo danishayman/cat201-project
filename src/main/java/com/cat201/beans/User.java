@@ -25,7 +25,7 @@ public class User {
     }
 
     // Getters
-    public int getId() {
+    public int getID() {
         return id;
     }
 
@@ -54,9 +54,8 @@ public class User {
         return password;
     }
 
-
     // Setters
-    public void setId(int id) {
+    public void setID(int id) {
         this.id = id;
     }
 

@@ -28,7 +28,7 @@ public class CaseDAO {
     public Case setRsToCase(ResultSet rs) {
         Case Case = new Case();
         try {
-            Case.setId(rs.getInt("id"));
+            Case.setID(rs.getInt("id"));
             
         } catch (SQLException e) {
             e.printStackTrace();
@@ -106,7 +106,7 @@ public class CaseDAO {
     public boolean updateCase(Case Case) {
         String stmt = "UPDATE Cases SET title = ?, description = ?, status = ?, clientName = ?, staffId = ? WHERE id = ?";
         try(PreparedStatement pstmt = conn.prepareStatement(stmt)) {
-            pstmt.setInt(9, Case.getId());
+            pstmt.setInt(9, Case.getID());
             pstmt.executeUpdate();
             return true;
         }

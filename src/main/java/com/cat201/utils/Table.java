@@ -65,6 +65,8 @@ public class Table {
         // Enable horizontal scrolling by setting column resize policy
         tableView.setMaxHeight(Double.MAX_VALUE);
         tableView.setMaxWidth(Double.MAX_VALUE);
+        tableView.prefWidthProperty().bind(mainContent.widthProperty());
+
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tableView.getStyleClass().add("table-view");
 

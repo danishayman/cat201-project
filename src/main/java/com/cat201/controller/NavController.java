@@ -2,6 +2,7 @@ package com.cat201.controller;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -11,10 +12,12 @@ public class NavController {
 
     private Stage primaryStage;
     private Connection conn;
+    private Pane mainContent;
     
     public NavController(Stage primaryStage, Connection conn) {
         this.primaryStage = primaryStage;
         this.conn = conn;
+        this.mainContent = (Pane) primaryStage.getScene().lookup("#main_content");
     }
 
     public void createEventListeners() {
@@ -29,15 +32,21 @@ public class NavController {
             showHome();
         });
 
+        navClient.setOnAction(e-> {
+            showVisibility();
+            ClientController clientController = new ClientController(primaryStage, conn, mainContent);
+            clientController.load();
+        });
+
         navStaff.setOnAction(e -> {
             showVisibility();
-            StaffController staffController = new StaffController(primaryStage, conn);
+            StaffController staffController = new StaffController(primaryStage, conn, mainContent);
             staffController.load();
         });
 
         navCase.setOnAction(e -> {
             showVisibility();
-            CaseController caseController = new CaseController(primaryStage, conn);
+            CaseController caseController = new CaseController(primaryStage, conn, mainContent);
             caseController.load();
         });
     }

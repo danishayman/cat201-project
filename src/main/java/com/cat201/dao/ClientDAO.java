@@ -15,8 +15,7 @@ public class ClientDAO {
 
     public ClientDAO(Connection conn) {
         this.conn = conn;
-
-        String stmt = "CREATE TABLE IF NOT EXISTS Clients (id INTEGER PRIMARY KEY AUTOINCREMENT, firstName TEXT, lastName TEXT, phone TEXT, email TEXT UNIQUE, createdBy TEXT FOREIGN KEY (createdBy) REFERENCES Staffs(id))";
+        String stmt = "CREATE TABLE IF NOT EXISTS Clients (id INTEGER PRIMARY KEY AUTOINCREMENT, firstName TEXT, lastName TEXT, phone TEXT, email TEXT UNIQUE, createdBy TEXT, FOREIGN KEY (createdBy) REFERENCES Staffs(id))";
         try {
             PreparedStatement pstmt = conn.prepareStatement(stmt);
             pstmt.executeUpdate();
@@ -58,8 +57,7 @@ public class ClientDAO {
         return null;
     }
 
-    public Client[] getClientQuery(String query) {
-        String stmt = "SELECT * FROM Clients WHERE " + query;
+    public List<Client> getClientQuery(String stmt) {
         try (PreparedStatement pstmt = conn.prepareStatement(stmt)) {
             ResultSet rs = pstmt.executeQuery();
 
@@ -69,14 +67,14 @@ public class ClientDAO {
                 client = this.setRsToClient(rs);
                 clientList.add(client);
             }
-            return clientList.toArray(new Client[0]);
+            return clientList;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public Client[] getClients() {
+    public List<Client> getClients() {
         String stmt = "SELECT * FROM Clients";
         try (PreparedStatement pstmt = conn.prepareStatement(stmt)) {
             ResultSet rs = pstmt.executeQuery();
@@ -88,7 +86,7 @@ public class ClientDAO {
                 client = this.setRsToClient(rs);
                 clientList.add(client);
             }
-            return clientList.toArray(new Client[0]);
+            return clientList;
         } catch (SQLException e) {
             e.printStackTrace();
         }

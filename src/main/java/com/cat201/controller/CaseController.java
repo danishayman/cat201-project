@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 import com.cat201.beans.Case;
 import com.cat201.beans.Case;
 import com.cat201.dao.CaseDAO;
-
+import com.cat201.utils.Form;
 import com.cat201.utils.Table;
 
 public class CaseController {
@@ -30,11 +30,11 @@ public class CaseController {
     private ArrayList<String> colNames;
     private ArrayList<String> cellData;
 
-    public CaseController(Stage primaryStage, Connection conn) {
+    public CaseController(Stage primaryStage, Connection conn, Pane mainContent) {
         this.primaryStage = primaryStage;
+        this.mainContent = mainContent;
         caseDAO = new CaseDAO(conn);
         tableView = new TableView<>();
-        mainContent = (Pane) primaryStage.getScene().lookup("#main_content");
         title = (Text) primaryStage.getScene().lookup("#main_title");
 
         Case caseobj = new Case();
@@ -61,7 +61,7 @@ public class CaseController {
         });
 
         // Generate table
-        Table.generateTable(cases, tableView, mainContent, colNames, cellData);
+        Table.generateTable(cases, tableView, mainContent, colNames, cellData, this::changeToDetailCase);
     }
 
     private List<Case> fetchData() {
@@ -81,34 +81,12 @@ public class CaseController {
         // Table.generateTable(cases, tableView, mainContent, colNames, cellData);
     }
 
-    private void changeToAddCase() {
-        title.setText("Add Case");
-        // hide the search bar and add button 
-        TextField searchField = (TextField) primaryStage.getScene().lookup("#main_searchinput");
-        searchField.setVisible(false);
-        Button addButton = (Button) primaryStage.getScene().lookup("#main_addbtn");
-        addButton.setVisible(false);
-        Button searchButton = (Button) primaryStage.getScene().lookup("#main_searchbtn");
-        searchButton.setVisible(false);
-    
-        Case Case = new Case();
-        ArrayList<String> colNames = Case.getColumnNames();
-        // ArrayList<String> cellData = Case.getCellData();
+    public void changeToAddCase() {
+        Form.changeToAddForm(title, mainContent, primaryStage, colNames, cellData);
+    }
 
-        Pane addStaffForm = new Pane();
-
-        // clear the main anchor pane
-        mainContent.getChildren().clear();
-    
-        for(int i=0; i<colNames.size(); i++) {
-            TextField textField = new TextField();
-            textField.setPromptText(colNames.get(i));
-            textField.setLayoutX(100);
-            textField.setLayoutY(100 + i*50);
-            addStaffForm.getChildren().add(textField);
-        }
-
-        mainContent.getChildren().add(addStaffForm);
+    public void changeToDetailCase(Case caseobj) {
+        Form.changeToDetailForm(caseobj, title, mainContent, primaryStage, colNames, cellData);
     }
 }
 

@@ -9,7 +9,9 @@ import javafx.stage.Stage;
 
 import java.sql.Connection;
 
+import com.cat201.beans.Staff;
 import com.cat201.dao.AuthDAO;
+import com.cat201.manager.UserManager;
 import com.cat201.utils.Toast;
 
 public class AuthController {
@@ -96,9 +98,12 @@ public class AuthController {
             return;
         }
 
-        boolean response = auth.login(email, password);
-        if(response) {
+        Staff staff = auth.login(email, password);
+        if(staff != null) {
             Toast.get().showSuccess("Login successful");
+
+            UserManager.get().setUser("staff", staff);
+
             if(loginCallback != null) {
                 loginCallback.onLoginSuccess(this.primaryStage);
             }

@@ -11,11 +11,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import com.cat201.beans.Case;
 import com.cat201.beans.Staff;
 
 import com.cat201.dao.StaffDAO;
-
+import com.cat201.utils.Form;
 import com.cat201.utils.Table;
 
 public class StaffController {
@@ -30,11 +29,11 @@ public class StaffController {
     private ArrayList<String> colNames;
     private ArrayList<String> cellData;
 
-    public StaffController(Stage primaryStage, Connection conn) {
+    public StaffController(Stage primaryStage, Connection conn, Pane mainContent) {
         this.primaryStage = primaryStage;
         staffDAO = new StaffDAO(conn);
         tableView = new TableView<>();
-        mainContent = (Pane) primaryStage.getScene().lookup("#main_content");
+        this.mainContent = mainContent;
         title = (Text) primaryStage.getScene().lookup("#main_title");
 
         // Get column names and cell data
@@ -61,7 +60,7 @@ public class StaffController {
         });
 
         // Generate table
-        Table.generateTable(staffs, tableView, mainContent, colNames, cellData);
+        Table.generateTable(staffs, tableView, mainContent, colNames, cellData, this::changeToDetailStaff);
     }
 
     private List<Staff> fetchData() {
@@ -88,38 +87,14 @@ public class StaffController {
         ArrayList<String> cellData = staffobj.getCellData();
 
         // Generate table
-        Table.generateTable(staffs, tableView, mainContent, colNames, cellData);
+        Table.generateTable(staffs, tableView, mainContent, colNames, cellData, this::changeToDetailStaff);
     }
 
     public void changeToAddStaff() {
-        title.setText("Add Staff");
-        // hide the search bar and add button 
-        TextField searchField = (TextField) primaryStage.getScene().lookup("#main_searchinput");
-        searchField.setVisible(false);
-        Button addButton = (Button) primaryStage.getScene().lookup("#main_addbtn");
-        addButton.setVisible(false);
-        Button searchButton = (Button) primaryStage.getScene().lookup("#main_searchbtn");
-        searchButton.setVisible(false);
-    
-        Staff staff = new Staff();
-        ArrayList<String> colNames = staff.getColumnNames();
-        // ArrayList<String> cellData = staff.getCellData();
-
-        Pane addStaffForm = new Pane();
-
-        // clear the main anchor pane
-        mainContent.getChildren().clear();
-    
-        for(int i=0; i<colNames.size(); i++) {
-            TextField textField = new TextField();
-            textField.setPromptText(colNames.get(i));
-            textField.setLayoutX(100);
-            textField.setLayoutY(100 + i*50);
-            addStaffForm.getChildren().add(textField);
-        }
-
-        mainContent.getChildren().add(addStaffForm);
+        Form.changeToAddForm(title, mainContent, primaryStage, colNames, cellData);
     }
 
-
+    public void changeToDetailStaff(Staff data) {
+        Form.changeToDetailForm(data, title, mainContent, primaryStage, colNames, cellData);
+    }
 }

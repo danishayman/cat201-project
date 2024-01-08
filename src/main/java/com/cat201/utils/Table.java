@@ -8,11 +8,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.function.Consumer;
 
 public class Table {
 
@@ -21,9 +20,9 @@ public class Table {
         ArrayList<String> getCellData();
     }
 
-    public static <T> void generateTable(List<T> data, TableView<T> tableView, Pane mainContent, ArrayList<String> colNames, ArrayList<String> cellData) {
+    public static <T> void generateTable(List<T> data, TableView<T> tableView, Pane mainContent, ArrayList<String> colNames, ArrayList<String> cellData, Consumer<T> callback) {
 
-        if(data.size() == 0) {
+        if(data.size() == 0 || data == null) {
             mainContent.getChildren().clear();
             mainContent.getChildren().add(new Button("No data found"));
             return;
@@ -45,11 +44,10 @@ public class Table {
         TableColumn<T, Void> detailColumn = new TableColumn<>("Details");
         detailColumn.setCellFactory(param -> new TableCell<T, Void>() {
             private final Button detailButton = new Button("Details");
-
             {
                 detailButton.setOnAction(event -> {
                     T data = getTableView().getItems().get(getIndex());
-                    System.out.println("selectedData: " + data);
+                    callback.accept(data);
                 });
             }
 
@@ -60,7 +58,6 @@ public class Table {
             }
         });
         tableView.getColumns().add(detailColumn);
-
 
         // Add data to the table
         tableView.setItems(observableData);

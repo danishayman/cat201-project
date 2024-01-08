@@ -1,5 +1,7 @@
 package com.cat201.beans;
 
+import java.util.ArrayList;
+
 public class Client {
     private int id; 
     private String firstName;
@@ -75,5 +77,27 @@ public class Client {
     @Override   
     public String toString() {
         return "Client [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", email=" + email + ", createdBy=" + createdBy + "]";
+    }
+
+    public ArrayList<String> getColumnNames() {
+        ArrayList<String> colNames = new ArrayList<>();
+        colNames.add("ID");
+        colNames.add("First Name");
+        colNames.add("Last Name");
+        colNames.add("Phone");
+        colNames.add("Email");
+        colNames.add("Created By");
+        return colNames;
+    }
+
+    public ArrayList<String> getCellData() {
+        ArrayList<String> cellData = new ArrayList<>();
+        cellData.add("id");
+        cellData.add("firstName");
+        cellData.add("lastName");
+        cellData.add("phone");
+        cellData.add("email");
+        cellData.add("createdBy");
+        return cellData;
     }
 }

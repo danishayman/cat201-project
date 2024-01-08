@@ -10,8 +10,69 @@
 }
 
 .root {
-  /* -fx-font-size: 12pt; */
+  -fx-font-size: 12pt;
   -fx-font-family: "Segoi UI";
+}
+
+/* TABLE VIEW */
+
+.table-view {
+  -fx-border-width: 0;
+  -fx-border-color: transparent;
+  -fx-border-style: none;
+  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 6, 0, 0, 2);
+}
+
+.table-view:focused {
+  -fx-text-fill: black;
+}
+
+.table-view .column-header-background {
+  -fx-background-color: white;
+}
+
+.table-view .column-header {
+  -fx-background-color: white;
+  /* -fx-background-color: transparent; */
+}
+
+.table-view .column-resize-line {
+  -fx-background-color: gray;
+}
+
+.table-row-cell {
+  -fx-text-fill: black;
+  -fx-background-color: white;
+}
+
+.table-view:focused .table-row-cell:focused {
+  -fx-background-insets: 0 0 0 0;
+  -fx-table-cell-border-color: transparent;
+}
+
+.table-row-cell:hover {
+  -fx-text-fill: black;
+}
+
+.table-row-cell:selected {
+  -fx-text-fill: black;
+  -fx-background-color: rgba(173, 216, 230, 0.24);
+}
+
+.table-row-cell:pressed {
+  -fx-text-fill: black;
+}
+
+.table-view .column-header {
+  -fx-text-alignment: END;
+  -fx-background-color: white;
+  -fx-border-style: solid;
+  -fx-border-color: transparent rgb(204, 204, 204) rgb(204, 204, 204) rgb(204, 204, 204);
+  -fx-border-width: 1px;
+}
+
+.table-view .filler {
+  -fx-background-color: white;
 }
 
 /* Sidebar */

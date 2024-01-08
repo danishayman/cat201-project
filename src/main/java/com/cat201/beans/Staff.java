@@ -20,7 +20,7 @@ public class Staff extends User {
         columnNames.add("Last Name");
         columnNames.add("Phone Number");
         columnNames.add("Address");
-        // columnNames.add("Email");
+        columnNames.add("Email");
         // columnNames.add("Password");
         return columnNames;
     }
@@ -32,7 +32,7 @@ public class Staff extends User {
         cellData.add("lastName");
         cellData.add("phone");
         cellData.add("address");
-        // cellData.add("email");
+        cellData.add("email");
         // cellData.add("password");
         return cellData;
     }

@@ -92,11 +92,28 @@ public class StaffController {
     }
 
     public void changeToAddStaff() {
-        Form.changeToAddForm(title, mainContent, primaryStage, colNames, cellData);
+        Form.changeToAddForm(title, "Staff", mainContent, primaryStage, colNames, cellData, this::addAction);
+    }
+
+    private void addAction(ArrayList<String> newdata) {
+        Staff newStaff = new Staff();
+        newStaff.setFirstName(newdata.get(0));
+        newStaff.setLastName(newdata.get(1));
+        newStaff.setPhone(newdata.get(2));
+        newStaff.setAddress(newdata.get(3));
+        newStaff.setEmail(newdata.get(4));
+        newStaff.setPassword("Password test");
+        boolean response = staffDAO.addStaff(newStaff);
+        if(response) {
+            Toast.get().showSuccess("Staff added successfully");
+            load();
+        } else {
+            Toast.get().showError("Error adding staff");
+        }
     }
 
     public void changeToDetailStaff(Staff data) {
-        Form.changeToDetailForm(data, title, mainContent, primaryStage, colNames, this::updateAction, this::deleteAction);
+        Form.changeToDetailForm(data, title,"Staff", mainContent, primaryStage, colNames, this::updateAction, this::deleteAction);
     }
 
     public void updateAction(ArrayList<String> newdata) {

@@ -81,11 +81,15 @@ public class CaseController {
     }
 
     public void changeToAddCase() {
-        Form.changeToAddForm(title, mainContent, primaryStage, colNames, cellData);
+        Form.changeToAddForm(title, "Case", mainContent, primaryStage, colNames, cellData, this::addAction);
+    }
+
+    private void addAction(ArrayList<String> newdata) {
+        // caseDAO.addCase(newdata);
     }
 
     public void changeToDetailCase(Case caseobj) {
-        Form.changeToDetailForm(caseobj, title, mainContent, primaryStage, colNames, this::updateAction, this::deleteAction);
+        Form.changeToDetailForm(caseobj, title, "Case", mainContent, primaryStage, colNames, this::updateAction, this::deleteAction);
     }
 
     private void updateAction(ArrayList<String> newdata) {

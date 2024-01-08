@@ -11,28 +11,48 @@ import javafx.stage.Stage;
 
 public class Form {
     
-    public static <T> void changeToAddForm(Text title, Pane mainContent, Stage primaryStage, ArrayList<String> colNames, ArrayList<String> cellData) {
-        title.setText("Add Staff");
+    public static <T> void changeToAddForm(Text title, String titlename,  Pane mainContent, Stage primaryStage, ArrayList<String> colNames, ArrayList<String> cellData, Consumer<ArrayList<String>> callback) {
+        title.setText("Add New " + titlename);
         Utils.get().hide();
 
-        Pane addStaffForm = new Pane();
+        Pane addForm = new Pane();
 
         // clear the main anchor pane
         mainContent.getChildren().clear();
     
-        for(int i=0; i<colNames.size(); i++) {
+        for(int i=1; i<colNames.size(); i++) {
             TextField textField = new TextField();
             textField.setPromptText(colNames.get(i));
+            textField.setMaxWidth(Double.MAX_VALUE);
             textField.setLayoutY(100 + i*50);
-            addStaffForm.getChildren().add(textField);
+            textField.prefWidthProperty().bind(addForm.widthProperty());
+            addForm.getChildren().add(textField);
         }
 
-        mainContent.getChildren().add(addStaffForm);
+        // add submit button
+        Button addButton = new Button("Submit");
+        addButton.setLayoutY(100 + colNames.size()*50);
+        addButton.setOnAction(e-> {
+            ArrayList<String> newdata = new ArrayList<>();
+            for(int i=0; i<colNames.size()-1; i++) {
+                TextField textField = (TextField) addForm.getChildren().get(i);
+                if(textField.getText().equals("")) {
+                    Toast.get().showError(colNames.get(i) + " cannot be empty");
+                    return;
+                }
+                newdata.add(textField.getText());
+            }
+            callback.accept(newdata);
+        });
+
+        addForm.getChildren().add(addButton);
+        addForm.prefWidthProperty().bind(mainContent.widthProperty());
+        mainContent.getChildren().add(addForm);
     }
 
     // DETAIL FORM - UPDATE + DELETE
-    public static <T> void changeToDetailForm(T data, Text title, Pane mainContent, Stage primaryStage, ArrayList<String> colNames, Consumer<ArrayList<String>> updateCallback, Consumer<Integer> deleteCallback) {
-        title.setText("Staff Details");
+    public static <T> void changeToDetailForm(T data, Text title, String titlename, Pane mainContent, Stage primaryStage, ArrayList<String> colNames, Consumer<ArrayList<String>> updateCallback, Consumer<Integer> deleteCallback) {
+        title.setText(titlename + " Details");
         Utils.get().hide();
 
         Pane detailForm = new Pane();
@@ -50,6 +70,7 @@ public class Form {
     private static <T> void createTextFields(T data, ArrayList<String> colNames, Pane detailForm) {
         for(int i=0; i<colNames.size(); i++) {
             TextField textField = new TextField();
+            textField.setLayoutY(100 + i*50);
             textField.setPromptText(colNames.get(i));
             textField.setMaxWidth(Double.MAX_VALUE);
             textField.prefWidthProperty().bind(detailForm.widthProperty());
@@ -64,7 +85,6 @@ public class Form {
                 e.printStackTrace(); // Handle the exception appropriately
             }
 
-            textField.setLayoutY(100 + i*50);
             if(colNames.get(i) == "ID") {
                 textField.setEditable(false);
             }

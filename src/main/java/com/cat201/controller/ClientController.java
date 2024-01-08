@@ -92,15 +92,29 @@ public class ClientController {
     }
 
     public void changeToAddClient() {
-        Form.changeToAddForm(title, mainContent, primaryStage, colNames, cellData);
+        Form.changeToAddForm(title, "Client", mainContent, primaryStage, colNames, cellData, this::addAction);
+    }
+
+    private void addAction(ArrayList<String> newdata) {
+        Client newClient = new Client();
+        newClient.setFirstName(newdata.get(0));
+        newClient.setLastName(newdata.get(1));
+        newClient.setPhone(newdata.get(2));
+        newClient.setEmail(newdata.get(3));
+        newClient.setCreatedBy(newdata.get(4));
+        boolean response = clientDAO.addClient(newClient);
+        if(response) {
+            Toast.get().showSuccess("Client added successfully");
+        } else {
+            Toast.get().showError("Client add failed");
+        }
     }
 
     public void changeToDetailClient(Client data) {
-        Form.changeToDetailForm(data, title, mainContent, primaryStage, colNames, this::updateSubmit, this::deleteSubmit);
+        Form.changeToDetailForm(data, title, "Client",mainContent, primaryStage, colNames, this::updateSubmit, this::deleteSubmit);
     }
 
     private void updateSubmit(ArrayList<String> newdata) {
-        
         Client newClient = new Client();
         newClient.setID(Integer.parseInt(newdata.get(0)));
         newClient.setFirstName(newdata.get(1));
@@ -117,6 +131,11 @@ public class ClientController {
     }
 
     private void deleteSubmit(Integer id) {
-        // clientDAO.deleteClient(id);
+        boolean response = clientDAO.deleteClient(id);
+        if(response) {
+            Toast.get().showSuccess("Client deleted successfully");
+        } else {
+            Toast.get().showError("Client delete failed");
+        }
     }
 }

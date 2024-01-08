@@ -17,7 +17,6 @@ public class UserManager {
         } else if(role.equals("admin")) {
             this.admin = (Admin) data;
         }
-        // Private constructor to enforce singleton pattern
     }
 
     public static synchronized UserManager get() {

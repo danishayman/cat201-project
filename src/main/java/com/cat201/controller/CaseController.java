@@ -15,6 +15,8 @@ import com.cat201.beans.Case;
 import com.cat201.dao.CaseDAO;
 import com.cat201.utils.Form;
 import com.cat201.utils.Table;
+import com.cat201.utils.Toast;
+import com.cat201.utils.Utils;
 
 public class CaseController {
     
@@ -43,6 +45,7 @@ public class CaseController {
 
     public void load() {
         title.setText("Cases List");
+        Utils.get().show();
         
         // Fetch data from the database
         List<Case> cases = fetchData();
@@ -70,14 +73,20 @@ public class CaseController {
     private void searchData() {
         TextField searchField = (TextField) primaryStage.getScene().lookup("#main_searchinput");
         String searchQuery = searchField.getText();
-        // List<Case> cases = caseDAO.getCaseQuery(searchQuery);
 
-        // Case caseobj = new Case();
-        // ArrayList<String> colNames = caseobj.getColumnNames();
-        // ArrayList<String> cellData = caseobj.getCellData();
+        String stmt = "SELECT * FROM Cases " +
+                    " WHERE title LIKE '%" + searchQuery + "%' " +
+                    " OR description LIKE '%" + searchQuery + "%' " +
+                    " OR status LIKE '%" + searchQuery + "%' " +
+                    " OR clientID LIKE '%" + searchQuery + "%' " +
+                    " OR staffID LIKE '%" + searchQuery + "%' ";
+        List<Case> cases = caseDAO.getCaseQuery(stmt);
 
-        // // Generate table
-        // Table.generateTable(cases, tableView, mainContent, colNames, cellData);
+        Case caseobj = new Case();
+        ArrayList<String> colNames = caseobj.getColumnNames();
+        ArrayList<String> cellData = caseobj.getCellData();
+
+        Table.generateTable(cases, tableView, mainContent, colNames, cellData, this::changeToDetailCase);
     }
 
     public void changeToAddCase() {
@@ -93,11 +102,29 @@ public class CaseController {
     }
 
     private void updateAction(ArrayList<String> newdata) {
-        // caseDAO.updateCase(caseobj);
+        Case newCase = new Case();
+        newCase.setID(Integer.parseInt(newdata.get(0)));
+        newCase.setTitle(newdata.get(1));
+        newCase.setDescription(newdata.get(2));
+        newCase.setStatus(newdata.get(3));
+        newCase.setClientId(newdata.get(4));
+        newCase.setStaffId(newdata.get(5));
+        boolean response = caseDAO.updateCase(newCase);
+        if(response) {
+            Toast.get().showSuccess("Case updated successfully");
+        }else {
+            Toast.get().showError("Error updating case");
+        }
     }
 
     private void deleteAction(Integer id) {
-        // caseDAO.deleteCase(id);
+        boolean response = caseDAO.deleteCase(id);
+        if(response) {
+            Toast.get().showSuccess("Case deleted successfully");
+            load();
+        }else {
+            Toast.get().showError("Error deleting case");
+        }
     }
 }
 

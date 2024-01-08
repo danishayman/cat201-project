@@ -46,6 +46,7 @@ public class ClientController {
 
     public void load() {
         title.setText("Clients List");
+        Utils.get().show();
         // Fetch data from the database
         List<Client> clients = fetchData(); 
 
@@ -72,9 +73,6 @@ public class ClientController {
     private void searchData() {
         TextField searchField = (TextField) primaryStage.getScene().lookup("#main_searchinput");
         String searchInput = searchField.getText();
-
-        // If search input is empty, return
-        if(searchInput.equals("")) return;
 
         String stmt = "SELECT * FROM Clients " +
                      "WHERE firstName LIKE '%" + searchInput + "%' " +
@@ -106,16 +104,17 @@ public class ClientController {
         boolean response = clientDAO.addClient(newClient);
         if(response) {
             Toast.get().showSuccess("Client added successfully");
+            load();
         } else {
             Toast.get().showError("Client add failed");
         }
     }
 
     public void changeToDetailClient(Client data) {
-        Form.changeToDetailForm(data, title, "Client",mainContent, primaryStage, colNames, this::updateSubmit, this::deleteSubmit);
+        Form.changeToDetailForm(data, title, "Client",mainContent, primaryStage, colNames, this::updateAction, this::deleteAction);
     }
 
-    private void updateSubmit(ArrayList<String> newdata) {
+    private void updateAction(ArrayList<String> newdata) {
         Client newClient = new Client();
         newClient.setID(Integer.parseInt(newdata.get(0)));
         newClient.setFirstName(newdata.get(1));
@@ -131,11 +130,10 @@ public class ClientController {
         }
     }
 
-    private void deleteSubmit(Integer id) {
+    private void deleteAction(Integer id) {
         boolean response = clientDAO.deleteClient(id);
         if(response) {
             Toast.get().showSuccess("Client deleted successfully");
-            Utils.get().show();
             load();
         } else {
             Toast.get().showError("Client delete failed");

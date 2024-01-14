@@ -1,15 +1,20 @@
 package com.cat201.controller;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.VBox;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.sql.Connection;
 
+import com.cat201.beans.Admin;
 import com.cat201.beans.Staff;
+import com.cat201.beans.User;
 import com.cat201.dao.AuthDAO;
 import com.cat201.manager.UserManager;
 import com.cat201.utils.Toast;
@@ -70,6 +75,10 @@ public class AuthController {
             createSignUp();
         });
 
+        @SuppressWarnings("unchecked")
+        ComboBox<String> roleCombo = (ComboBox<String>) root.lookup("#login_role");
+        roleCombo.getItems().addAll("Admin", "Staff");
+
         // Login button event listener
         Button login = (Button) root.lookup("#loginButton");
         // add enter key event listener
@@ -90,21 +99,31 @@ public class AuthController {
     // Login function
     private void runLogin(VBox root) {
         // Get username and password
-        String email = ((javafx.scene.control.TextField) root.lookup("#login_email")).getText();
-        String password = ((javafx.scene.control.TextField) root.lookup("#login_password")).getText();
+        String email = ((TextField) root.lookup("#login_email")).getText();
+        String password = ((TextField) root.lookup("#login_password")).getText();
+        @SuppressWarnings("unchecked")
+        String role = ((ComboBox<String>) root.lookup("#login_role")).getValue();
 
         if(email.equals("") || password.equals("")) {
             Toast.get().showError("Email or password is empty");
             return;
         }
 
-        Staff staff = auth.login(email, password);
-        if(staff != null) {
+        User user = null;
+        String roleType = null;
+
+        if (role.equals("Staff")) {
+            user = auth.loginStaff(email, password);
+            roleType = "staff";
+        } else if (role.equals("Admin")) {
+            user = auth.loginAdmin(email, password);
+            roleType = "admin";
+        }
+
+        if (user != null) {
+            UserManager.get().setUser(roleType, user);
             Toast.get().showSuccess("Login successful");
-
-            UserManager.get().setUser("staff", staff);
-
-            if(loginCallback != null) {
+            if (loginCallback != null) {
                 loginCallback.onLoginSuccess(this.primaryStage);
             }
         } else {
@@ -119,6 +138,10 @@ public class AuthController {
         loginLink.setOnAction(event -> {
             createLogin();
         });
+
+        @SuppressWarnings("unchecked")
+        ComboBox<String> roleCombo = (ComboBox<String>) root.lookup("#signup_role");
+        roleCombo.getItems().addAll("Admin", "Staff");
 
          // Sign up button event listener
         Button signup = (Button) root.lookup("#signupButton");
@@ -149,6 +172,10 @@ public class AuthController {
         String email = ((javafx.scene.control.TextField) root.lookup("#signup_email")).getText();
         String password = ((javafx.scene.control.TextField) root.lookup("#signup_password")).getText();
 
+        // role type
+        @SuppressWarnings("unchecked")
+        String role = ((ComboBox<String>) root.lookup("#signup_role")).getValue();
+
         String[] inputs = {firstname, lastname, phone, address, email, password};
         String errors = "";
         for(String input : inputs) {
@@ -161,11 +188,11 @@ public class AuthController {
             Toast.get().showError(errors);
             return;
         }
+        System.out.println(role);
 
-        boolean response = auth.register(firstname, lastname, phone, address, email, password);
+        boolean response = auth.register(firstname, lastname, phone, address, email, password, role);
         if(response) {
             Toast.get().showSuccess("Signup successful");
-            // proceed to go to login page
             createLogin();
         } else {
             Toast.get().showError("Signup failed");

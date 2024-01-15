@@ -10,19 +10,17 @@ public class Case {
     private String status;
     private String clientId;
     private String staffId;
-    private List<Integer> documentIds;
 
     public Case() {
     }
 
-    public Case(int id, String title, String description, String status, String clientId, String staffId, List<Integer> documentIds) {
+    public Case(int id, String title, String description, String status, String clientId, String staffId) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.status = status;
         this.clientId = clientId;
         this.staffId = staffId;
-        this.documentIds = documentIds;
     }
 
     // Getters
@@ -42,16 +40,12 @@ public class Case {
         return status;
     }
 
-    public String getclientId() {
+    public String getClientId() {
         return clientId;
     }
 
     public String getStaffId() {
         return staffId;
-    }
-
-    public List<Integer> getDocumentIds() {
-        return documentIds;
     }
 
     // Setters
@@ -79,13 +73,9 @@ public class Case {
         this.staffId = staffId;
     }
 
-    public void setDocumentIds(List<Integer> documentIds) {
-        this.documentIds = documentIds;
-    }
-
     @Override
     public String toString() {
-        String str = "Case [id=" + id + ", title=" + title + ", description=" + description + ", status=" + status + ", clientId=" + clientId + ", staffId=" + staffId + ", documentIds=" + documentIds + "]";
+        String str = "Case [id=" + id + ", title=" + title + ", description=" + description + ", status=" + status + ", clientId=" + clientId + ", staffId=" + staffId + "]";
         return str;
     }
 

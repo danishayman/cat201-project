@@ -52,9 +52,9 @@ public class StaffDAO {
 
             // Process the result set and create a Staff object
             if (rs.next()) {
-                Staff Staff = new Staff();
-                Staff.toString();
-                return Staff;
+                Staff staff = new Staff();
+                staff = this.setRsToStaff(rs);
+                return staff;
             }
         } catch (SQLException e) {
             e.printStackTrace();

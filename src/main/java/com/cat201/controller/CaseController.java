@@ -3,6 +3,7 @@ package com.cat201.controller;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
@@ -13,16 +14,20 @@ import javafx.stage.Stage;
 
 import com.cat201.beans.Case;
 import com.cat201.dao.CaseDAO;
-import com.cat201.utils.Form;
+import com.cat201.utils.CaseForm;
 import com.cat201.utils.Table;
 import com.cat201.utils.Toast;
 import com.cat201.utils.Utils;
 
+@FunctionalInterface
+interface CFunction {
+    void apply();
+}
 public class CaseController {
     
-
     private Stage primaryStage;
     private CaseDAO caseDAO;
+    private Connection conn;
     private TableView<Case> tableView;
 
     private Pane mainContent;
@@ -34,6 +39,7 @@ public class CaseController {
     public CaseController(Stage primaryStage, Connection conn, Pane mainContent) {
         this.primaryStage = primaryStage;
         this.mainContent = mainContent;
+        this.conn = conn;
         caseDAO = new CaseDAO(conn);
         tableView = new TableView<>();
         title = (Text) primaryStage.getScene().lookup("#main_title");
@@ -82,23 +88,41 @@ public class CaseController {
                     " OR staffID LIKE '%" + searchQuery + "%' ";
         List<Case> cases = caseDAO.getCaseQuery(stmt);
 
-        Case caseobj = new Case();
-        ArrayList<String> colNames = caseobj.getColumnNames();
-        ArrayList<String> cellData = caseobj.getCellData();
-
         Table.generateTable(cases, tableView, mainContent, colNames, cellData, this::changeToDetailCase);
     }
 
     public void changeToAddCase() {
-        Form.changeToAddForm(title, "Case", mainContent, primaryStage, colNames, cellData, this::addAction);
+        Function <Void, Void> goBack = (id) -> {
+            load();
+            return null;
+        };
+        CaseForm caseForm = new CaseForm(conn, goBack);
+        caseForm.changeToAddForm(title, mainContent, primaryStage,this::addAction);
     }
 
     private void addAction(ArrayList<String> newdata) {
-        // caseDAO.addCase(newdata);
+        Case newCase = new Case();
+        newCase.setTitle(newdata.get(0));
+        newCase.setDescription(newdata.get(1));
+        newCase.setStatus(newdata.get(2));
+        newCase.setClientId(newdata.get(3));
+        newCase.setStaffId(newdata.get(4));
+        boolean response = caseDAO.addCase(newCase);
+        if(response) {
+            Toast.get().showSuccess("Case added successfully");
+            load();
+        } else {
+            Toast.get().showError("Error adding case");
+        }
     }
 
     public void changeToDetailCase(Case caseobj) {
-        Form.changeToDetailForm(caseobj, title, "Case", mainContent, primaryStage, colNames, this::updateAction, this::deleteAction);
+        Function <Void, Void> goBack = (id) -> {
+            load();
+            return null;
+        };
+        CaseForm caseForm = new CaseForm(conn, goBack);
+        caseForm.changeToDetailForm(caseobj, title, mainContent, primaryStage, this::updateAction, this::deleteAction);
     }
 
     private void updateAction(ArrayList<String> newdata) {

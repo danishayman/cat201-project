@@ -16,7 +16,7 @@ public class CaseDAO {
     public CaseDAO(Connection conn) {
         this.conn = conn;
 
-        String stmt = "CREATE TABLE IF NOT EXISTS Cases (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, description TEXT, status TEXT, clientName TEXT, staffId INTEGER, FOREIGN KEY (staffId) REFERENCES Staffs(id));";
+        String stmt = "CREATE TABLE IF NOT EXISTS Cases (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, description TEXT, status TEXT, clientId INTEGER, staffId INTEGER, FOREIGN KEY (clientId) REFERENCES Clients(id), FOREIGN KEY (staffId) REFERENCES Staffs(id));";
         try {
             PreparedStatement pstmt = conn.prepareStatement(stmt);
             pstmt.executeUpdate();
@@ -29,7 +29,11 @@ public class CaseDAO {
         Case Case = new Case();
         try {
             Case.setID(rs.getInt("id"));
-            
+            Case.setTitle(rs.getString("title"));
+            Case.setDescription(rs.getString("description"));
+            Case.setStatus(rs.getString("status"));
+            Case.setClientId(rs.getString("clientId"));
+            Case.setStaffId(rs.getString("staffId"));  
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -44,9 +48,9 @@ public class CaseDAO {
 
             // Process the result set and create a Case object
             if (rs.next()) {
-                Case Case = new Case();
-                Case.toString();
-                return Case;
+                Case caseObj = new Case();
+                caseObj = this.setRsToCase(rs);
+                return caseObj;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -91,9 +95,14 @@ public class CaseDAO {
         return null;
     }
 
-    public boolean addCase(Case Case) {
-        String stmt = "INSERT INTO Cases (title, description, status, clientName, staffId) VALUES (?, ?, ?, ?, ?)";
+    public boolean addCase(Case newCase) {
+        String stmt = "INSERT INTO Cases (title, description, status, clientId, staffId) VALUES (?, ?, ?, ?, ?)";
         try(PreparedStatement pstmt = conn.prepareStatement(stmt)) {
+            pstmt.setString(1, newCase.getTitle());
+            pstmt.setString(2, newCase.getDescription());
+            pstmt.setString(3, newCase.getStatus());
+            pstmt.setString(4, newCase.getClientId());
+            pstmt.setString(5, newCase.getStaffId());
             pstmt.executeUpdate();
             return true;
         }
@@ -103,10 +112,15 @@ public class CaseDAO {
         }
     }
 
-    public boolean updateCase(Case Case) {
-        String stmt = "UPDATE Cases SET title = ?, description = ?, status = ?, clientName = ?, staffId = ? WHERE id = ?";
+    public boolean updateCase(Case caseObj) {
+        String stmt = "UPDATE Cases SET title = ?, description = ?, status = ?, clientId = ?, staffId = ? WHERE id = ?";
         try(PreparedStatement pstmt = conn.prepareStatement(stmt)) {
-            pstmt.setInt(9, Case.getID());
+            pstmt.setString(1, caseObj.getTitle());
+            pstmt.setString(2, caseObj.getDescription());
+            pstmt.setString(3, caseObj.getStatus());
+            pstmt.setString(4, caseObj.getClientId());
+            pstmt.setString(5, caseObj.getStaffId());
+            pstmt.setInt(6, caseObj.getID());
             pstmt.executeUpdate();
             return true;
         }

@@ -6,19 +6,17 @@ public class Document {
     private String name;
     private String format;
     private String path;
-    private int caseId; 
-    private int uploaderId;
+    private int caseId;
 
     public Document() {
     }
 
-    public Document(int id, String name, String format, String path, int caseId, int uploaderId) {
+    public Document(int id, String name, String format, String path, int caseId) {
         this.id = id;
         this.name = name;
         this.format = format;
         this.path = path;
         this.caseId = caseId;
-        this.uploaderId = uploaderId;
     }
 
     // Getters
@@ -43,10 +41,6 @@ public class Document {
         return caseId;
     }
 
-    public int getUploaderId() {
-        return uploaderId;
-    }
-
     // Setters
 
     public void setId(int id) {
@@ -55,10 +49,6 @@ public class Document {
 
     public void setCaseId(int caseId) {
         this.caseId = caseId;
-    }
-
-    public void setUploaderId(int uploaderId) {
-        this.uploaderId = uploaderId;
     }
 
     public void setName(String name){
@@ -76,6 +66,6 @@ public class Document {
     @Override
     public String toString() {
         return "Document [caseId=" + caseId + ", format=" + format + ", id=" + id + ", name=" + name + ", path=" + path
-                + ", uploaderId=" + uploaderId + "]";
+                + "]";
     }
 }

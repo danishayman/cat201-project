@@ -28,7 +28,6 @@ public class Table {
             return;
         }
 
-        // Assuming you have a proper model class
         ObservableList<T> observableData = FXCollections.observableArrayList(data);
 
         // Clear existing columns

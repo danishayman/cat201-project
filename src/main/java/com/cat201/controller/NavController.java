@@ -14,6 +14,8 @@ public class NavController {
     private Stage primaryStage;
     private Connection conn;
     private Pane mainContent;
+
+    public NavController() {}
     
     public NavController(Stage primaryStage, Connection conn) {
         this.primaryStage = primaryStage;
@@ -51,11 +53,17 @@ public class NavController {
             caseController.load();
         });
     }
-
+    
     private void showHome() {
         Text title = (Text) primaryStage.getScene().lookup("#main_title");
         title.setText("Dashboard");
         // Hide search and add button in the homepage
         Utils.get().hide();
+    }
+
+    public void clickCase() {
+        Utils.get().show();
+        CaseController caseController = new CaseController(primaryStage, conn, mainContent);
+        caseController.load();
     }
 }

@@ -1,7 +1,6 @@
 package com.cat201.controller;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -12,8 +11,6 @@ import javafx.stage.Stage;
 
 import java.sql.Connection;
 
-import com.cat201.beans.Admin;
-import com.cat201.beans.Staff;
 import com.cat201.beans.User;
 import com.cat201.dao.AuthDAO;
 import com.cat201.manager.UserManager;

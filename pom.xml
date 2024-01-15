@@ -21,6 +21,13 @@
             <version>21</version>
         </dependency>
         <dependency>
+            <groupId>com.main</groupId>    
+            <artifactId>main-fxml</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/javafx.fxml.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>com.main</groupId>
             <artifactId>main</artifactId>
             <version>1.0</version>

@@ -28,6 +28,13 @@
             <systemPath>${project.basedir}/lib/javafx.controls.jar</systemPath>
         </dependency>
         <dependency>
+            <groupId>com.main</groupId>    
+            <artifactId>main-fxml</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/javafx.fxml.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>com.main</groupId>
             <artifactId>main</artifactId>
             <version>1.0</version>

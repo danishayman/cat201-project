@@ -58,6 +58,9 @@ public class CaseController {
 
         // Search button functionality
         Button searchButton = (Button) primaryStage.getScene().lookup("#main_searchbtn");
+        TextField searchInput = (TextField) primaryStage.getScene().lookup("#main_searchinput");
+        searchButton.setLayoutX(593);
+        searchInput.setPrefWidth(567);
         searchButton.setOnAction(e -> {
             searchData();
         });

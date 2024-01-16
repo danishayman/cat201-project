@@ -83,7 +83,7 @@
                      </font>
                   </Text>
                   <Pane id="main_content" layoutX="18.0" layoutY="135.0" prefHeight="609.0" prefWidth="756.0" />
-                  <Button id="main_addbtn" layoutX="688.0" layoutY="83.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="86.0" text="Add" />
+                  <Button id="main_addbtn" layoutX="688.0" layoutY="83.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="86.0" text="+ Add" />
                   <Button id="main_searchbtn" layoutX="593.0" layoutY="83.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="86.0" text="Search" />
                   <TextField id="main_searchinput" layoutX="17.0" layoutY="83.0" prefHeight="37.0" prefWidth="567.0" />
                </children>

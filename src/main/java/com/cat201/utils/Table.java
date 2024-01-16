@@ -44,6 +44,8 @@ public class Table {
         detailColumn.setCellFactory(param -> new TableCell<T, Void>() {
             private final Button detailButton = new Button("Details");
             {
+                detailButton.getStyleClass().add("table-detail-btn"); 
+                detailButton.setPrefHeight(10);
                 detailButton.setOnAction(event -> {
                     T data = getTableView().getItems().get(getIndex());
                     callback.accept(data);

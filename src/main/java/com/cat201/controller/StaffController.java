@@ -12,12 +12,14 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import com.cat201.beans.Staff;
-
+import com.cat201.beans.User;
 import com.cat201.dao.StaffDAO;
 import com.cat201.utils.Form;
 import com.cat201.utils.Table;
 import com.cat201.utils.Toast;
 import com.cat201.utils.Utils;
+
+import com.cat201.manager.UserManager;
 
 public class StaffController {
     
@@ -50,17 +52,35 @@ public class StaffController {
         // Fetch data from the database
         List<Staff> staffs = fetchData(); 
 
+        Object user = UserManager.get().getData("Staff");
+        // check if user is empty, if empty try get Admin
+        if(user == null) {
+            user = UserManager.get().getData("Admin");
+        }
+
         // Search button functionality
         Button searchButton = (Button) primaryStage.getScene().lookup("#main_searchbtn");
-        searchButton.setOnAction(e -> {
-            searchData();
-        });
+        TextField searchInput = (TextField) primaryStage.getScene().lookup("#main_searchinput");
+        // if user is not admin, set search button width to full
+        if(user instanceof Staff) {
+            searchButton.setLayoutX(688);
+            searchInput.setPrefWidth(660);
+        }else{
+            searchButton.setOnAction(e -> {
+                searchData();
+            });
+        }
 
         // Add button functionality
         Button addButton = (Button) primaryStage.getScene().lookup("#main_addbtn");
-        addButton.setOnAction(e -> {
-            changeToAddStaff();
-        });
+        // if user is not admin, hide add button
+        if(user instanceof Staff) {
+            addButton.setVisible(false);
+        }else{
+            addButton.setOnAction(e -> {
+                changeToAddStaff();
+            });
+        }
 
         // Generate table
         Table.generateTable(staffs, tableView, mainContent, colNames, cellData, this::changeToDetailStaff);

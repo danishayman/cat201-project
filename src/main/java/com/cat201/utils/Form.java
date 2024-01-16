@@ -24,14 +24,16 @@ public class Form {
             TextField textField = new TextField();
             textField.setPromptText(colNames.get(i));
             textField.setMaxWidth(Double.MAX_VALUE);
-            textField.setLayoutY(100 + i*50);
+            textField.setLayoutY(i*50 - 100);
             textField.prefWidthProperty().bind(addForm.widthProperty());
             addForm.getChildren().add(textField);
         }
 
         // add submit button
         Button addButton = new Button("Submit");
-        addButton.setLayoutY(100 + colNames.size()*50);
+        addButton.getStyleClass().add("form-add-btn");
+        addButton.setPrefWidth(100);
+        addButton.setLayoutY(colNames.size()*50 - 100);
         addButton.setOnAction(e-> {
             ArrayList<String> newdata = new ArrayList<>();
             for(int i=0; i<colNames.size()-1; i++) {
@@ -70,7 +72,7 @@ public class Form {
     private static <T> void createTextFields(T data, ArrayList<String> colNames, Pane detailForm) {
         for(int i=0; i<colNames.size(); i++) {
             TextField textField = new TextField();
-            textField.setLayoutY(100 + i*50);
+            textField.setLayoutY(i*50 - 50);
             textField.setPromptText(colNames.get(i));
             textField.setMaxWidth(Double.MAX_VALUE);
             textField.prefWidthProperty().bind(detailForm.widthProperty());
@@ -95,7 +97,9 @@ public class Form {
     // SUBMIT BUTTON
     private static <T> void createSubmitButton(T data, ArrayList<String> colNames, Pane detailForm, Consumer<ArrayList<String>> callback ) {
         Button submitButton = new Button("Submit");
-        submitButton.setLayoutY(100 + colNames.size()*50);
+        submitButton.getStyleClass().add("form-add-btn");
+        submitButton.setLayoutY(colNames.size()*50 - 50);
+        submitButton.setPrefWidth(100);
 
         submitButton.setOnAction(e -> {
             ArrayList<String> newdata = new ArrayList<>();
@@ -114,9 +118,10 @@ public class Form {
 
     private static <T> void createDeleteButton(T data, ArrayList<String> colNames, Pane detailForm, Consumer<Integer> callback) {
         Button deleteButton = new Button("Delete");
-        deleteButton.setLayoutX(100 + colNames.size()*50);
-        deleteButton.setLayoutY(100 + colNames.size()*50);
-        deleteButton.getStyleClass().add("delete-button");
+        deleteButton.setLayoutX(110);
+        deleteButton.setLayoutY(colNames.size()*50 - 50);
+        deleteButton.setPrefWidth(100);
+        deleteButton.getStyleClass().add("form-delete-btn");
 
         deleteButton.setOnAction(e -> {
             int id = Integer.parseInt(((TextField) detailForm.getChildren().get(0)).getText());

@@ -19,15 +19,15 @@ public class Main extends Application implements AuthController.LoginCallback {
 	@Override
 	public void start(Stage primaryStage) {
 		// uncomment for development
-		showMainPage(primaryStage);
+		// showMainPage(primaryStage);
 		// uncomment for production
-		// try {
-		// 	AuthController authController = new AuthController(primaryStage, conn, this);
-		// 	authController.createLogin();
+		try {
+			AuthController authController = new AuthController(primaryStage, conn, this);
+			authController.createLogin();
 
-		// } catch(Exception e) {
-		// 	e.printStackTrace();
-		// }
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

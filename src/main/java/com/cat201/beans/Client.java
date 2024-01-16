@@ -8,12 +8,12 @@ public class Client {
     private String lastName;
     private String phone;
     private String email;
-    private String createdBy;
+    private int createdBy;
 
     public Client() {
     }
 
-    public Client(int id, String firstName, String lastName, String phone, String email, String createdBy) {
+    public Client(int id, String firstName, String lastName, String phone, String email, String creatorRole, int createdBy) {
         this.id = id; 
         this.firstName = firstName;
         this.lastName = lastName;
@@ -44,7 +44,8 @@ public class Client {
         return email;
     }
 
-    public String getCreatedBy() {
+
+    public int getCreatedBy() {
         return createdBy;
     }
 
@@ -70,7 +71,8 @@ public class Client {
         this.email = email;
     }
 
-    public void setCreatedBy(String createdBy){
+
+    public void setCreatedBy(int createdBy){
         this.createdBy = createdBy;
     }
 
@@ -86,7 +88,6 @@ public class Client {
         colNames.add("Last Name");
         colNames.add("Phone");
         colNames.add("Email");
-        colNames.add("Created By");
         return colNames;
     }
 
@@ -97,7 +98,6 @@ public class Client {
         cellData.add("lastName");
         cellData.add("phone");
         cellData.add("email");
-        cellData.add("createdBy");
         return cellData;
     }
 }

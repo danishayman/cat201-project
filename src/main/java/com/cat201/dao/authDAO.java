@@ -17,7 +17,7 @@ public class AuthDAO {
     }
 
     public Staff loginStaff(String email, String password) {
-        String query= "SELECT * FROM staffs WHERE email = '" + email + "' AND password = '" + password + "'";
+        String query= "SELECT * FROM Users WHERE email = '" + email + "' AND password = '" + password + "' AND role = 'staff'";
         List<Staff> staff = staffDAO.getStaffQuery(query);
         if(staff != null && staff.size() > 0) {
             return staff.get(0);
@@ -27,7 +27,7 @@ public class AuthDAO {
     }
 
     public Admin loginAdmin(String email, String password) {
-        String query= "SELECT * FROM admins WHERE email = '" + email + "' AND password = '" + password + "'";
+        String query = "SELECT * FROM Users WHERE email = '" + email + "' AND password = '" + password + "' AND role = 'admin'";
         List<Admin> admin = adminDAO.getAdminQuery(query);
         if(admin != null && admin.size() > 0) {
             return admin.get(0);

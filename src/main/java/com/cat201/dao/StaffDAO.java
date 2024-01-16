@@ -19,7 +19,7 @@ public class StaffDAO {
     public StaffDAO(Connection conn) {
         this.conn = conn;
         
-        String stmt = "CREATE TABLE IF NOT EXISTS Staffs (id INTEGER PRIMARY KEY AUTOINCREMENT,firstName TEXT,lastName TEXT,phone TEXT,address TEXT,email TEXT UNIQUE,password TEXT)";
+        String stmt = "CREATE TABLE IF NOT EXISTS Users (id INTEGER PRIMARY KEY AUTOINCREMENT,firstName TEXT,lastName TEXT,phone TEXT,address TEXT,email TEXT UNIQUE,password TEXT, role TEXT)";
         try {
             PreparedStatement pstmt = conn.prepareStatement(stmt);
             pstmt.executeUpdate();
@@ -45,7 +45,7 @@ public class StaffDAO {
     }
 
     public Staff getStaff(int id) {
-        String stmt = "SELECT * FROM Staffs WHERE id = ?";
+        String stmt = "SELECT * FROM Users WHERE id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(stmt)) {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
@@ -81,7 +81,7 @@ public class StaffDAO {
     }
 
     public List<Staff> getStaffs() {
-        String stmt = "SELECT * FROM Staffs";
+        String stmt = "SELECT * FROM Users WHERE role = 'staff'";
         try (PreparedStatement pstmt = conn.prepareStatement(stmt)) {
             ResultSet rs = pstmt.executeQuery();
 
@@ -101,15 +101,16 @@ public class StaffDAO {
         return null;
     }
 
-    public boolean addStaff(Staff Staff) {
-        String stmt = "INSERT INTO Staffs (firstName, lastName, phone, address, email, password) VALUES (?, ?, ?, ?, ?, ?)";
+    public boolean addStaff(Staff staff) {
+        String stmt = "INSERT INTO Users (firstName, lastName, phone, address, email, password, role) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try(PreparedStatement pstmt = conn.prepareStatement(stmt)) {
-            pstmt.setString(1, Staff.getFirstName());
-            pstmt.setString(2, Staff.getLastName());
-            pstmt.setString(3, Staff.getPhone());
-            pstmt.setString(4, Staff.getAddress());
-            pstmt.setString(5, Staff.getEmail());
-            pstmt.setString(6, Staff.getPassword());
+            pstmt.setString(1, staff.getFirstName());
+            pstmt.setString(2, staff.getLastName());
+            pstmt.setString(3, staff.getPhone());
+            pstmt.setString(4, staff.getAddress());
+            pstmt.setString(5, staff.getEmail());
+            pstmt.setString(6, staff.getPassword());
+            pstmt.setString(7, "staff");
             pstmt.executeUpdate();
             return true;
         }
@@ -120,7 +121,7 @@ public class StaffDAO {
     }
 
     public boolean updateStaff(Staff Staff) {
-        String stmt = "UPDATE Staffs SET firstName = ?, lastName = ?, phone = ?, address = ?, email = ?, password = ? WHERE id = ?";
+        String stmt = "UPDATE Users SET firstName = ?, lastName = ?, phone = ?, address = ?, email = ?, password = ?, role = ? WHERE id = ?";
         try(PreparedStatement pstmt = conn.prepareStatement(stmt)) {
             pstmt.setString(1, Staff.getFirstName());
             pstmt.setString(2, Staff.getLastName());
@@ -128,7 +129,8 @@ public class StaffDAO {
             pstmt.setString(4, Staff.getAddress());
             pstmt.setString(5, Staff.getEmail());
             pstmt.setString(6, Staff.getPassword());
-            pstmt.setInt(7, Staff.getID());
+            pstmt.setString(7, "staff");
+            pstmt.setInt(8, Staff.getID());
             pstmt.executeUpdate();
             return true;
         }
@@ -139,7 +141,7 @@ public class StaffDAO {
     }
 
     public boolean deleteStaff(int id) {
-        String stmt = "DELETE FROM Staffs WHERE id = ?";
+        String stmt = "DELETE FROM Users WHERE id = ?";
         try(PreparedStatement pstmt = conn.prepareStatement(stmt)) {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();

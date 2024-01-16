@@ -67,7 +67,6 @@ public class DocumentController {
             Button addButton = (Button) primaryStage.getScene().lookup("#main_addbtn");
             addButton.setOnAction(e -> {
                 ArrayList<String> newdata = addDocument();
-                System.out.println(newdata);
                 if(newdata != null) {
                     Document document = new Document(0, newdata.get(0), newdata.get(1), newdata.get(2), caseId);
                     boolean response = documentDAO.addDocument(document);

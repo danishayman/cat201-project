@@ -19,7 +19,7 @@ public class AdminDAO {
     public AdminDAO(Connection conn) {
         this.conn = conn;
         
-        String stmt = "CREATE TABLE IF NOT EXISTS Admins (id INTEGER PRIMARY KEY AUTOINCREMENT,firstName TEXT,lastName TEXT,phone TEXT,address TEXT,email TEXT UNIQUE,password TEXT)";
+        String stmt = "CREATE TABLE IF NOT EXISTS Users (id INTEGER PRIMARY KEY AUTOINCREMENT,firstName TEXT,lastName TEXT,phone TEXT,address TEXT,email TEXT UNIQUE,password TEXT, role TEXT)";
         try {
             PreparedStatement pstmt = conn.prepareStatement(stmt);
             pstmt.executeUpdate();
@@ -29,23 +29,24 @@ public class AdminDAO {
     }
 
     public Admin setRsToAdmin(ResultSet rs) {
-        Admin Admin = new Admin();
+        Admin admin = new Admin();
         try {
-            Admin.setID(rs.getInt("id"));
-            Admin.setFirstName(rs.getString("firstName"));
-            Admin.setLastName(rs.getString("lastName"));
-            Admin.setPhone(rs.getString("phone"));
-            Admin.setAddress(rs.getString("address"));
-            Admin.setEmail(rs.getString("email"));
-            Admin.setPassword(rs.getString("password"));
+            admin.setID(rs.getInt("id"));
+            admin.setFirstName(rs.getString("firstName"));
+            admin.setLastName(rs.getString("lastName"));
+            admin.setPhone(rs.getString("phone"));
+            admin.setAddress(rs.getString("address"));
+            admin.setEmail(rs.getString("email"));
+            admin.setPassword(rs.getString("password"));
+            admin.setRole(rs.getString("role"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return Admin;
+        return admin;
     }
 
     public Admin getAdmin(int id) {
-        String stmt = "SELECT * FROM Admins WHERE id = ?";
+        String stmt = "SELECT * FROM Users WHERE id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(stmt)) {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
@@ -81,7 +82,7 @@ public class AdminDAO {
     }
 
     public List<Admin> getAdmins() {
-        String stmt = "SELECT * FROM Admins";
+        String stmt = "SELECT * FROM Users";
         try (PreparedStatement pstmt = conn.prepareStatement(stmt)) {
             ResultSet rs = pstmt.executeQuery();
 
@@ -101,15 +102,16 @@ public class AdminDAO {
         return null;
     }
 
-    public boolean addAdmin(Admin Admin) {
-        String stmt = "INSERT INTO Admins (firstName, lastName, phone, address, email, password) VALUES (?, ?, ?, ?, ?, ?)";
+    public boolean addAdmin(Admin admin) {
+        String stmt = "INSERT INTO Users (firstName, lastName, phone, address, email, password, role) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try(PreparedStatement pstmt = conn.prepareStatement(stmt)) {
-            pstmt.setString(1, Admin.getFirstName());
-            pstmt.setString(2, Admin.getLastName());
-            pstmt.setString(3, Admin.getPhone());
-            pstmt.setString(4, Admin.getAddress());
-            pstmt.setString(5, Admin.getEmail());
-            pstmt.setString(6, Admin.getPassword());
+            pstmt.setString(1, admin.getFirstName());
+            pstmt.setString(2, admin.getLastName());
+            pstmt.setString(3, admin.getPhone());
+            pstmt.setString(4, admin.getAddress());
+            pstmt.setString(5, admin.getEmail());
+            pstmt.setString(6, admin.getPassword());
+            pstmt.setString(7, "admin");
             pstmt.executeUpdate();
             return true;
         }
@@ -120,7 +122,7 @@ public class AdminDAO {
     }
 
     public boolean updateAdmin(Admin Admin) {
-        String stmt = "UPDATE Admins SET firstName = ?, lastName = ?, phone = ?, address = ?, email = ?, password = ? WHERE id = ?";
+        String stmt = "UPDATE Users SET firstName = ?, lastName = ?, phone = ?, address = ?, email = ?, password = ? WHERE id = ?";
         try(PreparedStatement pstmt = conn.prepareStatement(stmt)) {
             pstmt.setString(1, Admin.getFirstName());
             pstmt.setString(2, Admin.getLastName());
@@ -139,7 +141,7 @@ public class AdminDAO {
     }
 
     public boolean deleteAdmin(int id) {
-        String stmt = "DELETE FROM Admins WHERE id = ?";
+        String stmt = "DELETE FROM Users WHERE id = ?";
         try(PreparedStatement pstmt = conn.prepareStatement(stmt)) {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();

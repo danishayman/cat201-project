@@ -1,7 +1,6 @@
 package com.cat201.beans;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Case {
     private int id;

@@ -3,6 +3,7 @@ package com.cat201.controller;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
@@ -12,7 +13,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import com.cat201.beans.Staff;
-import com.cat201.beans.User;
 import com.cat201.dao.StaffDAO;
 import com.cat201.utils.Form;
 import com.cat201.utils.Table;
@@ -52,10 +52,10 @@ public class StaffController {
         // Fetch data from the database
         List<Staff> staffs = fetchData(); 
 
-        Object user = UserManager.get().getData("Staff");
+        Object user = UserManager.get().getData();
         // check if user is empty, if empty try get Admin
         if(user == null) {
-            user = UserManager.get().getData("Admin");
+            user = UserManager.get().getData();
         }
 
         // Search button functionality
@@ -114,7 +114,11 @@ public class StaffController {
     }
 
     public void changeToAddStaff() {
-        Form.changeToAddForm(title, "Staff", mainContent, primaryStage, colNames, cellData, this::addAction);
+        Function <Void, Void> goBack = (id) -> {
+            load();
+            return null;
+        };
+        Form.changeToAddForm(title, "Staff", mainContent, primaryStage, colNames, cellData, this::addAction, goBack);
     }
 
     private void addAction(ArrayList<String> newdata) {
@@ -135,7 +139,11 @@ public class StaffController {
     }
 
     public void changeToDetailStaff(Staff data) {
-        Form.changeToDetailForm(data, title,"Staff", mainContent, primaryStage, colNames, this::updateAction, this::deleteAction);
+        Function <Void, Void> goBack = (id) -> {
+            load();
+            return null;
+        };
+        Form.changeToDetailForm("view",data, null, title,"Staff", mainContent, primaryStage, colNames, this::updateAction, this::deleteAction, goBack);
     }
 
     public void updateAction(ArrayList<String> newdata) {
@@ -146,7 +154,6 @@ public class StaffController {
         newStaff.setPhone(newdata.get(3));
         newStaff.setAddress(newdata.get(4));
         newStaff.setEmail(newdata.get(5));
-        // System.out.println(newStaff);
         boolean response = staffDAO.updateStaff(newStaff);
         if(response) {
             Toast.get().showSuccess("Staff updated successfully");

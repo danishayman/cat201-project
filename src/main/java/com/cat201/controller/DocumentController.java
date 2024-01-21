@@ -19,6 +19,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -59,12 +61,14 @@ public class DocumentController {
 
             // Search button functionality
             Button searchButton = (Button) primaryStage.getScene().lookup("#main_searchbtn");
+            searchButton.getStyleClass().add("#main-searchbtn");
             searchButton.setOnAction(e -> {
                 searchData();
             });
 
             // Add button functionality
             Button addButton = (Button) primaryStage.getScene().lookup("#main_addbtn");
+            addButton.getStyleClass().add("#main-addbtn");
             addButton.setOnAction(e -> {
                 ArrayList<String> newdata = addDocument();
                 if(newdata != null) {
@@ -124,20 +128,51 @@ public class DocumentController {
         for (Document document : documents) {
             VBox documentItem = new VBox();
             documentItem.getStyleClass().add("document-item");
-    
+            documentItem.setSpacing(10); // Set the desired gap between children
+
             // Create document name
             Text documentName = new Text();
             documentName.setText(document.getName());
-    
+
+            // Create a filler region to push the button to the right
+            Region filler = new Region();
+            VBox.setVgrow(filler, Priority.ALWAYS);
+
             // Create button to download at the right of the VBox
             Button downloadButton = new Button();
             downloadButton.setText("Download");
+            downloadButton.getStyleClass().add("form-add-download-button");
+
+            downloadButton.setOnAction(e -> {
+                File file = new File(document.getPath());
+                if (file.exists()) {
+                    try {
+
+                        java.awt.Desktop.getDesktop().open(file);
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                } else {
+                    Toast.get().showError("File not found");
+                }
+            });
 
             Button deleteButton = new Button();
             deleteButton.setText("Delete");
+            deleteButton.getStyleClass().add("form-add-delete-button");
+            deleteButton.setOnAction(e -> {
+                boolean response = documentDAO.deleteDocument(document.getID());
+                if(response) {
+                    Toast.get().showSuccess("Document deleted successfully");
+                    List<Document> newDocuments = fetchData();
+                    renderDocumentList(newDocuments);
+                }else {
+                    Toast.get().showError("Error deleting document");
+                }
+            });
     
             // Add the document name and download button to the VBox
-            documentItem.getChildren().addAll(documentName, downloadButton);
+            documentItem.getChildren().addAll(documentName, downloadButton, deleteButton);
     
             // Add the document item to the main container
             documentContainer.getChildren().add(documentItem);

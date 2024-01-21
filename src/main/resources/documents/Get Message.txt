@@ -1,0 +1,32 @@
+title Get Message
+
+actor Client/Driver
+participant MessagingListPage
+participant MessageApiClass
+participant RestApiController
+database Database
+
+Client/Driver->MessagingListPage: Visit page
+activate MessagingListPage
+
+MessagingListPage->MessageApiClass: Request message list
+activate MessageApiClass
+  MessageApiClass->RestApiController: Send GET request for messages
+deactivate MessageApiClass
+
+activate RestApiController
+  RestApiController->Database: Retrieve message list
+  activate Database
+    Database->RestApiController: Send response with message list
+  deactivate Database
+
+  alt Message list is retrieved
+    RestApiController->MessageApiClass: Send successful response
+    activate MessageApiClass
+      MessageApiClass->MessagingListPage: Display messages
+    deactivate MessageApiClass
+  else
+    RestApiController->MessagingListPage: Display error message
+  end
+
+deactivate RestApiController

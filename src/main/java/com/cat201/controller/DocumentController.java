@@ -140,7 +140,7 @@ public class DocumentController {
 
             // Create button to download at the right of the VBox
             Button downloadButton = new Button();
-            downloadButton.setText("Download");
+            downloadButton.setText("Open");
             downloadButton.getStyleClass().add("form-add-download-button");
 
             downloadButton.setOnAction(e -> {

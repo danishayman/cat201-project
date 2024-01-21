@@ -22,7 +22,8 @@ public class Form {
         mainContent.getChildren().clear();
 
         // add back button
-        Button backButton = new Button("Go Back To " + titlename + " List");
+        Button backButton = new Button("< Go Back To " + titlename + " List");
+        backButton.getStyleClass().add("back-button");
         backButton.setLayoutY(-60);
         backButton.setOnAction(e -> {
             load.apply(null);
@@ -69,7 +70,8 @@ public class Form {
         Pane detailForm = new Pane();
 
         // // add back button
-        Button backButton = new Button("Go Back To " + titlename + " List");
+        Button backButton = new Button("< Go Back To " + titlename + " List");
+        backButton.getStyleClass().add("back-button");
         backButton.setLayoutY(-60);
         backButton.setOnAction(e -> {
             load.apply(null);

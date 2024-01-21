@@ -11,10 +11,12 @@ public class User {
     private String email;
     private String password;
 
+    private String role;
+
     public User() {
     }
 
-    public User(int id, String firstName, String lastName, String phone, String address, String email, String password) {
+    public User(int id, String firstName, String lastName, String phone, String address, String email, String password, String role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -22,6 +24,7 @@ public class User {
         this.address = address;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     // Getters
@@ -54,6 +57,8 @@ public class User {
         return password;
     }
 
+    public String getRole() { return role; }
+
     // Setters
     public void setID(int id) {
         this.id = id;
@@ -84,9 +89,11 @@ public class User {
         this.password = password;
     }
 
+    public void setRole(String role) { this.role = role; }
+
     @Override
     public String toString(){
-        String str = "User: " + this.id + " " + this.firstName + " " + this.lastName + " " + this.phone + " " + this.address + " " + this.email + " " + this.password;
+        String str = "User: " + this.id + " " + this.firstName + " " + this.lastName + " " + this.phone + " " + this.address + " " + this.email + " " + this.password + " " + this.role;
         return str;
     }
 }

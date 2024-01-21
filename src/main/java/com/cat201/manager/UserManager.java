@@ -7,18 +7,11 @@ public class UserManager {
     private static UserManager instance;
     private Staff staff;
     private Admin admin;
+    private String role;
 
     private UserManager() {
     }
-
-    private <T> UserManager(String role, T data) {
-        if(role.equals("staff")) {
-            this.staff = (Staff) data;
-        } else if(role.equals("admin")) {
-            this.admin = (Admin) data;
-        }
-    }
-
+    
     public static synchronized UserManager get() {
         if (instance == null) {
             instance = new UserManager();
@@ -27,19 +20,33 @@ public class UserManager {
     }
 
     public <T> void setUser(String role, T data) {
+        this.role = role;
         if(role.equals("staff")) {
             this.staff = (Staff) data;
-        } else if(role.equals("admin")) {
+        }else{
             this.admin = (Admin) data;
         }
     }
 
-    public Object getData(String userType) {
-        if ("Staff".equals(userType)) {
+    public String getRole() {
+        return role;
+    }
+
+    public Object getData() {
+        if ("staff".equals(role)) {
             return staff;
-        } else if ("Admin".equals(userType)) {
+        } else if ("admin".equals(role)) {
             return admin;
         }
         return null; // Handle unsupported userType
+    }
+    
+    public int getID() {
+        if ("staff".equals(role)) {
+            return staff.getID();
+        } else if ("admin".equals(role)) {
+            return admin.getID();
+        }
+        return -99; // Handle unsupported userType
     }
 }

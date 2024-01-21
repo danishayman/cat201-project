@@ -3,6 +3,7 @@ package com.cat201.controller;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
@@ -11,9 +12,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import com.cat201.beans.Admin;
 import com.cat201.beans.Client;
-
+import com.cat201.beans.Staff;
+import com.cat201.dao.AdminDAO;
 import com.cat201.dao.ClientDAO;
+import com.cat201.dao.StaffDAO;
+import com.cat201.manager.UserManager;
 import com.cat201.utils.Form;
 import com.cat201.utils.Table;
 import com.cat201.utils.Toast;
@@ -23,6 +28,8 @@ public class ClientController {
     
     private Stage primaryStage;
     private ClientDAO clientDAO;
+    private StaffDAO staffDAO;
+    private AdminDAO adminDAO;
     private TableView<Client> tableView;
 
     private Pane mainContent;
@@ -35,6 +42,8 @@ public class ClientController {
         this.primaryStage = primaryStage;
         this.mainContent = mainContent;
         clientDAO = new ClientDAO(conn);
+        staffDAO = new StaffDAO(conn);
+        adminDAO = new AdminDAO(conn);
         tableView = new TableView<>();
         title = (Text) primaryStage.getScene().lookup("#main_title");
 
@@ -94,7 +103,11 @@ public class ClientController {
     }
 
     public void changeToAddClient() {
-        Form.changeToAddForm(title, "Client", mainContent, primaryStage, colNames, cellData, this::addAction);
+        Function <Void, Void> goBack = (id) -> {
+            load();
+            return null;
+        };
+        Form.changeToAddForm(title, "Client", mainContent, primaryStage, colNames, cellData, this::addAction, goBack);
     }
 
     private void addAction(ArrayList<String> newdata) {
@@ -103,7 +116,7 @@ public class ClientController {
         newClient.setLastName(newdata.get(1));
         newClient.setPhone(newdata.get(2));
         newClient.setEmail(newdata.get(3));
-        newClient.setCreatedBy(newdata.get(4));
+        newClient.setCreatedBy(UserManager.get().getID());
         boolean response = clientDAO.addClient(newClient);
         if(response) {
             Toast.get().showSuccess("Client added successfully");
@@ -114,7 +127,38 @@ public class ClientController {
     }
 
     public void changeToDetailClient(Client data) {
-        Form.changeToDetailForm(data, title, "Client",mainContent, primaryStage, colNames, this::updateAction, this::deleteAction);
+        Function <Void, Void> goBack = (id) -> {
+            load();
+            return null;
+        };
+
+        String creatorName = "";
+
+        Staff staff = staffDAO.getStaff(data.getCreatedBy());
+        if(staff == null) {
+            Admin admin = adminDAO.getAdmin(data.getCreatedBy());
+            if(admin == null) {
+                creatorName = "Unknown";
+            } else {
+                creatorName = admin.getFirstName() + " " + admin.getLastName();
+            }
+        } else {
+            creatorName = staff.getFirstName() + " " + staff.getLastName();
+        }
+    
+        ArrayList<String> columnNames = new ArrayList<>();
+        columnNames.addAll(data.getColumnNames());
+        columnNames.add("Created By");
+        ArrayList<String> dataString = new ArrayList<>();
+
+        dataString.add(String.valueOf(data.getID()));
+        dataString.add(data.getFirstName());
+        dataString.add(data.getLastName());
+        dataString.add(data.getPhone());
+        dataString.add(data.getEmail());
+        dataString.add(creatorName);
+
+        Form.changeToDetailForm("edit",data, dataString, title, "Client",mainContent, primaryStage, columnNames, this::updateAction, this::deleteAction, goBack);
     }
 
     private void updateAction(ArrayList<String> newdata) {
@@ -124,7 +168,7 @@ public class ClientController {
         newClient.setLastName(newdata.get(2));
         newClient.setPhone(newdata.get(3));
         newClient.setEmail(newdata.get(4));
-        newClient.setCreatedBy(newdata.get(5));
+        newClient.setCreatedBy(Integer.parseInt(newdata.get(5)));
         boolean response = clientDAO.updateClient(newClient);
         if(response) {
             Toast.get().showSuccess("Client updated successfully");

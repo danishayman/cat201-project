@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import com.cat201.beans.Case;
-import com.cat201.dao.ClientDAO;
-import com.cat201.dao.StaffDAO;
 
 public class CaseTable {
 
@@ -36,34 +34,6 @@ public class CaseTable {
             }
             tableView.getColumns().add(column);
         }
-
-        for(Case c: data) {
-            String clientName = new ClientDAO(conn).getClient(c.getID()).getFirstName();
-        }
-
-
-
-
-
-        // // add details button the last column
-        // TableColumn<Case, Void> detailColumn = new TableColumn<>("Details");
-        // detailColumn.setCellFactory(param -> new TableCell<Case, Void>() {
-        //     private final Button detailButton = new Button("Details");
-        //     {
-        //         detailButton.setOnAction(event -> {
-        //             Case data = getTableView().getItems().get(getIndex());
-        //             callback.accept(data);
-        //         });
-        //     }
-
-        //     @Override
-        //     public void updateItem(Void item, boolean empty) {
-        //         super.updateItem(item, empty);
-        //         setGraphic(empty ? null : detailButton);
-        //     }
-        // });
-        // tableView.getColumns().add(detailColumn);
-
 
         // Enable horizontal scrolling by setting column resize policy
         tableView.setMaxHeight(Double.MAX_VALUE);

@@ -21,7 +21,7 @@ public class Document {
 
     // Getters
 
-    public int getId() {
+    public int getID() {
         return id;
     }
 
@@ -37,17 +37,17 @@ public class Document {
         return path;
     }
 
-    public int getCaseId() {
+    public int getCaseID() {
         return caseId;
     }
 
     // Setters
 
-    public void setId(int id) {
+    public void setID(int id) {
         this.id = id;
     }
 
-    public void setCaseId(int caseId) {
+    public void setCaseID(int caseId) {
         this.caseId = caseId;
     }
 
@@ -65,7 +65,6 @@ public class Document {
 
     @Override
     public String toString() {
-        return "Document [caseId=" + caseId + ", format=" + format + ", id=" + id + ", name=" + name + ", path=" + path
-                + "]";
+        return "Document [id=" + id + ", name=" + name + ", format=" + format + ", path=" + path + ", caseId=" + caseId + "]";
     }
 }

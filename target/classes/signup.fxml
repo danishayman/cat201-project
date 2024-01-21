@@ -74,7 +74,7 @@
             <TextField id="signup_address" layoutX="335.0" layoutY="445.0" prefHeight="74.0" prefWidth="354.0" promptText="Address" style="-fx-border-radius: 100;" />
             <TextField id="signup_firstname" layoutX="335.0" layoutY="274.0" prefHeight="49.0" prefWidth="354.0" promptText="First Name" style="-fx-border-radius: 100;" />
             <TextField id="signup_lastname" layoutX="335.0" layoutY="331.0" prefHeight="49.0" prefWidth="354.0" promptText="Last Name" style="-fx-border-radius: 100;" />
-            <ComboBox id="signup_role" editable="true" layoutX="336.0" layoutY="527.0" prefHeight="49.0" prefWidth="354.0" promptText="Role" visibleRowCount="2" />
+            <ComboBox id="signup_role" layoutX="336.0" layoutY="527.0" prefHeight="49.0" prefWidth="354.0" promptText="Role" visibleRowCount="2" />
          </children>
       </AnchorPane>
    </children>

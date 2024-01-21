@@ -106,6 +106,11 @@ public class AuthController {
             return;
         }
 
+        if(role == null) {
+            Toast.get().showError("Please select a role");
+            return;
+        }
+
         User user = null;
         String roleType = null;
 
@@ -185,7 +190,6 @@ public class AuthController {
             Toast.get().showError(errors);
             return;
         }
-        System.out.println(role);
 
         boolean response = auth.register(firstname, lastname, phone, address, email, password, role);
         if(response) {

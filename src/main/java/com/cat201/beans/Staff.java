@@ -10,7 +10,7 @@ public class Staff extends User {
 
     public Staff(int id, String firstName, String lastName, String email, String password, String phone,
             String address) {
-        super(id, firstName, lastName, phone, address, email, password);
+        super(id, firstName, lastName, phone, address, email, password, "staff");
     }
 
     public ArrayList<String> getColumnNames() {

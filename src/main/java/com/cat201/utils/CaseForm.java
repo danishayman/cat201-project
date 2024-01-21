@@ -2,15 +2,14 @@ package com.cat201.utils;
 
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 import com.cat201.beans.Case;
 import com.cat201.beans.Client;
 import com.cat201.beans.Staff;
+import com.cat201.controller.DocumentController;
 import com.cat201.dao.ClientDAO;
 import com.cat201.dao.StaffDAO;
 
@@ -29,12 +28,14 @@ public class CaseForm {
 
     private StaffDAO staffDAO;
     private ClientDAO clientDAO;
+    private Connection conn;
 
     private Function<Void, Void> load;
 
     public CaseForm(Connection conn, Function<Void, Void> load) {
         this.clientDAO = new ClientDAO(conn);
         this.staffDAO = new StaffDAO(conn);
+        this.conn = conn;
         this.load = load;
     }
     
@@ -130,6 +131,7 @@ public class CaseForm {
 
         createTextFields(data, detailForm);
         createDeleteButton(data, detailForm, deleteCallback);
+        createDocumentButton(data, detailForm);
 
         // add submit button
         Button updateButton = new Button("Submit");
@@ -244,5 +246,18 @@ public class CaseForm {
             callback.accept(id);
         });
         detailForm.getChildren().add(deleteButton);
+    }
+
+    private void createDocumentButton(Case data, Pane detailForm) {
+        Button documentButton = new Button("Documents");
+        documentButton.setLayoutX(200);
+        documentButton.setLayoutY(350);
+        documentButton.getStyleClass().add("document-button");
+
+        documentButton.setOnAction(e -> {
+            DocumentController documentController = new DocumentController(data.getID(), conn);
+            documentController.load();
+        });
+        detailForm.getChildren().add(documentButton);
     }
 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cat201.beans.Client;
+import com.cat201.manager.UserManager;
 
 public class ClientDAO {
 
@@ -15,7 +16,7 @@ public class ClientDAO {
 
     public ClientDAO(Connection conn) {
         this.conn = conn;
-        String stmt = "CREATE TABLE IF NOT EXISTS Clients (id INTEGER PRIMARY KEY AUTOINCREMENT, firstName TEXT, lastName TEXT, phone TEXT, email TEXT UNIQUE, createdBy TEXT, FOREIGN KEY (createdBy) REFERENCES Staffs(id))";
+        String stmt = "CREATE TABLE IF NOT EXISTS Clients (id INTEGER PRIMARY KEY AUTOINCREMENT, firstName TEXT, lastName TEXT, phone TEXT, email TEXT UNIQUE, createdBy TEXT, FOREIGN KEY (createdBy) REFERENCES Users(id))";
         try {
             PreparedStatement pstmt = conn.prepareStatement(stmt);
             pstmt.executeUpdate();
@@ -32,7 +33,7 @@ public class ClientDAO {
             client.setLastName(rs.getString("lastName"));
             client.setPhone(rs.getString("phone"));
             client.setEmail(rs.getString("email"));
-            client.setCreatedBy(rs.getString("createdBy"));
+            client.setCreatedBy(rs.getInt("createdBy"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -75,7 +76,13 @@ public class ClientDAO {
     }
 
     public List<Client> getClients() {
-        String stmt = "SELECT * FROM Clients";
+
+        String stmt = "";
+        if(UserManager.get().getRole() == "admin") {
+            stmt = "SELECT * FROM Clients";
+        } else {
+            stmt = "SELECT * FROM Clients WHERE createdBy = " + UserManager.get().getID();
+        }
         try (PreparedStatement pstmt = conn.prepareStatement(stmt)) {
             ResultSet rs = pstmt.executeQuery();
 
@@ -100,7 +107,7 @@ public class ClientDAO {
             pstmt.setString(2, client.getLastName());
             pstmt.setString(3, client.getPhone());
             pstmt.setString(4, client.getEmail());
-            pstmt.setString(5, client.getCreatedBy());
+            pstmt.setInt(5, client.getCreatedBy());
             pstmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -116,7 +123,7 @@ public class ClientDAO {
             pstmt.setString(2, client.getLastName());
             pstmt.setString(3, client.getPhone());
             pstmt.setString(4, client.getEmail());
-            pstmt.setString(5, client.getCreatedBy());
+            pstmt.setInt(5, client.getCreatedBy());
             pstmt.setInt(6, client.getID());
             pstmt.executeUpdate();
             return true;

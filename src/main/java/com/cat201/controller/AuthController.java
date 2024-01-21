@@ -7,6 +7,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.PasswordField;
 import javafx.stage.Stage;
 
 import java.sql.Connection;
@@ -97,7 +98,7 @@ public class AuthController {
     private void runLogin(VBox root) {
         // Get username and password
         String email = ((TextField) root.lookup("#login_email")).getText();
-        String password = ((TextField) root.lookup("#login_password")).getText();
+        String password = ((PasswordField) root.lookup("#login_password")).getText();
         @SuppressWarnings("unchecked")
         String role = ((ComboBox<String>) root.lookup("#login_role")).getValue();
 
@@ -168,11 +169,11 @@ public class AuthController {
         String firstname = ((javafx.scene.control.TextField) root.lookup("#signup_firstname")).getText();
         String lastname = ((javafx.scene.control.TextField) root.lookup("#signup_lastname")).getText();
         String phone = ((javafx.scene.control.TextField) root.lookup("#signup_phone")).getText();
-        String address = ((javafx.scene.control.TextField) root.lookup("#signup_address")).getText();
+        String address = ((javafx.scene.control.TextArea) root.lookup("#signup_address")).getText();
 
         // account credentials
         String email = ((javafx.scene.control.TextField) root.lookup("#signup_email")).getText();
-        String password = ((javafx.scene.control.TextField) root.lookup("#signup_password")).getText();
+        String password = ((javafx.scene.control.PasswordField) root.lookup("#signup_password")).getText();
 
         // role type
         @SuppressWarnings("unchecked")

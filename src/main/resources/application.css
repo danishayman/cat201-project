@@ -155,9 +155,43 @@
   -fx-background-color: #e85c5c;
 }
 
+.back-button{
+  -fx-base: transparent;
+  -fx-background-color: transparent;
+  -fx-text-fill: black;
+  -fx-border-color: transparent;
+  -fx-cursor: hand;
+  -fx-font-size: 14px;
+}
+
+.back-button:hover{
+  -fx-text-fill: -fx-primary;
+  -fx-underline: true;
+}
+
+.document-btn{
+  -fx-background-color: #16222A;
+  -fx-text-fill: -fx-white;
+  -fx-cursor: hand;
+}
+
+.document-btn:hover{
+  -fx-background-color: #1d2d37;
+  -fx-text-fill: -fx-white;
+}
+
 #user-id {
   -fx-font-size: 16px;
   -fx-font-family: "Arial Black";
   -fx-fill: #818181;
   -fx-effect: innershadow(three-pass-box, rgba(0, 0, 0, 0.7), 6, 0, 0, 2);
+}
+
+/* Dashboard page */
+.dashboard-edit_btn:hover {
+  -fx-background-color: -fx-primary-hover;
+}
+
+.dashboard-logout_btn:hover {
+  -fx-background-color: #e85c5c;
 }

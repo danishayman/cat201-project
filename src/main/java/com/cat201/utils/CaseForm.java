@@ -49,7 +49,8 @@ public class CaseForm {
         mainContent.getChildren().clear();
 
         // add back button
-        Button backButton = new Button("Go Back To Cases List");
+        Button backButton = new Button("< Go Back To Cases List");
+        backButton.getStyleClass().add("back-button");
         backButton.setLayoutY(-60);
         backButton.setOnAction(e -> {
             load.apply(null);
@@ -60,6 +61,8 @@ public class CaseForm {
 
         // add submit button
         Button addButton = new Button("Submit");
+        addButton.getStyleClass().add("form-add-btn");
+        addButton.setPrefWidth(100);
         addButton.setLayoutY(350);
         addButton.setOnAction(e-> {
             ArrayList<String> newdata = new ArrayList<>();
@@ -122,7 +125,8 @@ public class CaseForm {
         Pane detailForm = new Pane();
 
         // add back button
-        Button backButton = new Button("Go Back To Cases List");
+        Button backButton = new Button("< Go Back To Cases List");
+        backButton.getStyleClass().add("back-button");
         backButton.setLayoutY(-60);
         backButton.setOnAction(e -> {
             load.apply(null);
@@ -135,6 +139,8 @@ public class CaseForm {
 
         // add submit button
         Button updateButton = new Button("Submit");
+        updateButton.getStyleClass().add("form-add-btn");
+        updateButton.setPrefWidth(100);
         updateButton.setLayoutY(350);
         updateButton.setOnAction(e-> {
             ArrayList<String> newdata = new ArrayList<>();
@@ -237,7 +243,9 @@ public class CaseForm {
 
     private void createDeleteButton(Case data, Pane detailForm, Consumer<Integer> callback) {
         Button deleteButton = new Button("Delete");
-        deleteButton.setLayoutX(100);
+        deleteButton.getStyleClass().add("form-delete-btn");
+        deleteButton.setPrefWidth(100);
+        deleteButton.setLayoutX(110);
         deleteButton.setLayoutY(350);
         deleteButton.getStyleClass().add("delete-button");
 
@@ -250,7 +258,10 @@ public class CaseForm {
 
     private void createDocumentButton(Case data, Pane detailForm) {
         Button documentButton = new Button("Documents");
-        documentButton.setLayoutX(200);
+        documentButton.getStyleClass().add("document-btn");
+        documentButton.setPrefWidth(100);
+        documentButton.setPrefHeight(34);
+        documentButton.setLayoutX(220);
         documentButton.setLayoutY(350);
         documentButton.getStyleClass().add("document-button");
 

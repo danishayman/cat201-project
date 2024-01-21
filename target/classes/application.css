@@ -161,3 +161,12 @@
   -fx-fill: #818181;
   -fx-effect: innershadow(three-pass-box, rgba(0, 0, 0, 0.7), 6, 0, 0, 2);
 }
+
+/* Dashboard page */
+.dashboard-edit_btn:hover {
+  -fx-background-color: -fx-primary-hover;
+}
+
+.dashboard-logout_btn:hover {
+  -fx-background-color: #e85c5c;
+}

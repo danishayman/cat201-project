@@ -69,11 +69,12 @@ public class StaffController {
         if(user instanceof Staff) {
             searchButton.setLayoutX(688);
             searchInput.setPrefWidth(660);
-        }else{
-            searchButton.setOnAction(e -> {
-                searchData();
-            });
         }
+
+        searchButton.setOnAction(e -> {
+            searchData();
+        });
+
 
         // Add button functionality
         Button addButton = (Button) primaryStage.getScene().lookup("#main_addbtn");
@@ -104,15 +105,19 @@ public class StaffController {
         TextField searchField = (TextField) primaryStage.getScene().lookup("#main_searchinput");
         String searchInput = searchField.getText();
 
-        // If search input is empty, return
-        if(searchInput.equals("")) return;
+        String stmt = "";
+        if(searchInput.isEmpty()) {
+            stmt = "SELECT * FROM Users " +
+            "WHERE role = 'staff'";
+        }else {
+            stmt = "SELECT * FROM Users " +
+            "WHERE role = 'staff' AND firstName LIKE '%" + searchInput + "%' " +
+            "   OR lastName LIKE '%" + searchInput + "%' " +
+            "   OR phone LIKE '%" + searchInput + "%' " +
+            "   OR address LIKE '%" + searchInput + "%' " +
+            "   OR email LIKE '%" + searchInput + "%'";
+        }
 
-        String stmt = "SELECT * FROM Staffs " +
-                     "WHERE firstName LIKE '%" + searchInput + "%' " +
-                     "   OR lastName LIKE '%" + searchInput + "%' " +
-                     "   OR phone LIKE '%" + searchInput + "%' " +
-                     "   OR address LIKE '%" + searchInput + "%' " +
-                     "   OR email LIKE '%" + searchInput + "%'";
         List<Staff> staffs = staffDAO.getStaffQuery(stmt);
 
         // Generate table

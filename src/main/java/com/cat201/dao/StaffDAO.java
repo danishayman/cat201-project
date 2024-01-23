@@ -45,7 +45,7 @@ public class StaffDAO {
     }
 
     public Staff getStaff(int id) {
-        String stmt = "SELECT * FROM Users WHERE id = ?";
+        String stmt = "SELECT * FROM Users WHERE id = ? AND role = 'staff'";
         try (PreparedStatement pstmt = conn.prepareStatement(stmt)) {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
@@ -68,7 +68,7 @@ public class StaffDAO {
             ResultSet rs = pstmt.executeQuery();
 
             List<Staff> staffList = new ArrayList<>();
-            if (rs.next()) {
+            while (rs.next()) {
                 Staff staff = new Staff();
                 staff = this.setRsToStaff(rs);
                 staffList.add(staff);

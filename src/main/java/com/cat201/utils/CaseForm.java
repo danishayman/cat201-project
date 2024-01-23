@@ -259,8 +259,7 @@ public class CaseForm {
     private void createDocumentButton(Case data, Pane detailForm) {
         Button documentButton = new Button("Documents");
         documentButton.getStyleClass().add("document-btn");
-        documentButton.setPrefWidth(100);
-        documentButton.setPrefHeight(34);
+        documentButton.setPrefWidth(130);
         documentButton.setLayoutX(220);
         documentButton.setLayoutY(350);
         documentButton.getStyleClass().add("document-button");

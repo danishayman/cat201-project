@@ -16,7 +16,7 @@ public class ClientDAO {
 
     public ClientDAO(Connection conn) {
         this.conn = conn;
-        String stmt = "CREATE TABLE IF NOT EXISTS Clients (id INTEGER PRIMARY KEY AUTOINCREMENT, firstName TEXT, lastName TEXT, phone TEXT, email TEXT UNIQUE, createdBy TEXT, FOREIGN KEY (createdBy) REFERENCES Users(id))";
+        String stmt = "CREATE TABLE IF NOT EXISTS Clients (id INTEGER PRIMARY KEY AUTOINCREMENT, firstName TEXT, lastName TEXT, phone TEXT, email TEXT UNIQUE, createdBy INTEGER, FOREIGN KEY (createdBy) REFERENCES Users(id))";
         try {
             PreparedStatement pstmt = conn.prepareStatement(stmt);
             pstmt.executeUpdate();
@@ -81,7 +81,15 @@ public class ClientDAO {
         if(UserManager.get().getRole() == "admin") {
             stmt = "SELECT * FROM Clients";
         } else {
-            stmt = "SELECT * FROM Clients WHERE createdBy = " + UserManager.get().getID();
+            int staffId = UserManager.get().getID();
+
+            stmt = "SELECT c.id, c.firstName, c.lastName, c.phone, c.createdBy, c.email " +
+                           "FROM Clients AS c " +
+                           "JOIN Cases AS cs ON cs.staffId = " + staffId + " " +
+                           "UNION " +
+                           "SELECT c.id, c.firstName, c.lastName, c.phone, c.createdBy, c.email " +
+                           "FROM Clients AS c " +
+                           "WHERE c.createdBy = " + staffId + " AND c.id NOT IN (SELECT clientId FROM Cases)";
         }
         try (PreparedStatement pstmt = conn.prepareStatement(stmt)) {
             ResultSet rs = pstmt.executeQuery();

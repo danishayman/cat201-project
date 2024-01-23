@@ -53,9 +53,9 @@ public class AdminDAO {
 
             // Process the result set and create a Admin object
             if (rs.next()) {
-                Admin Admin = new Admin();
-                Admin.toString();
-                return Admin;
+                Admin admin = new Admin();
+                admin = this.setRsToAdmin(rs);
+                return admin;
             }
         } catch (SQLException e) {
             e.printStackTrace();

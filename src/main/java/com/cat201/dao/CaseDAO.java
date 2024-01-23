@@ -16,7 +16,7 @@ public class CaseDAO {
     public CaseDAO(Connection conn) {
         this.conn = conn;
 
-        String stmt = "CREATE TABLE IF NOT EXISTS Cases (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, description TEXT, status TEXT, clientId INTEGER, staffId INTEGER, FOREIGN KEY (clientId) REFERENCES Clients(id), FOREIGN KEY (staffId) REFERENCES Staffs(id));";
+        String stmt = "CREATE TABLE IF NOT EXISTS Cases (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, description TEXT, status TEXT, clientId INTEGER, staffId INTEGER, FOREIGN KEY (clientId) REFERENCES Clients(id), FOREIGN KEY (staffId) REFERENCES Users(id));";
         try {
             PreparedStatement pstmt = conn.prepareStatement(stmt);
             pstmt.executeUpdate();

@@ -44,6 +44,10 @@ public class StaffController {
         Staff staffobj = new Staff();
         colNames = staffobj.getColumnNames();
         cellData = staffobj.getCellData();
+
+        //remove the last colNames and cellData element
+        colNames.remove(colNames.size() - 1);
+        cellData.remove(cellData.size() - 1);
     }
 
     public void load() {
@@ -83,7 +87,13 @@ public class StaffController {
         }
 
         // Generate table
-        Table.generateTable(staffs, tableView, mainContent, colNames, cellData, this::changeToDetailStaff);
+        Staff staffobj = new Staff();
+        ArrayList<String> newcolNames = staffobj.getColumnNames();
+        ArrayList<String> newcellData = staffobj.getCellData();
+        //remove the last colNames and cellData element
+        newcolNames.remove(newcolNames.size() - 1);
+        newcellData.remove(newcellData.size() - 1);
+        Table.generateTable(staffs, tableView, mainContent, newcolNames, newcellData, this::changeToDetailStaff);
     }
 
     private List<Staff> fetchData() {
@@ -105,12 +115,16 @@ public class StaffController {
                      "   OR email LIKE '%" + searchInput + "%'";
         List<Staff> staffs = staffDAO.getStaffQuery(stmt);
 
+        // Generate table
         Staff staffobj = new Staff();
-        ArrayList<String> colNames = staffobj.getColumnNames();
-        ArrayList<String> cellData = staffobj.getCellData();
+        ArrayList<String> newcolNames = staffobj.getColumnNames();
+        ArrayList<String> newcellData = staffobj.getCellData();
+        //remove the last colNames and cellData element
+        newcolNames.remove(newcolNames.size() - 1);
+        newcellData.remove(newcellData.size() - 1);
 
         // Generate table
-        Table.generateTable(staffs, tableView, mainContent, colNames, cellData, this::changeToDetailStaff);
+        Table.generateTable(staffs, tableView, mainContent, newcolNames, newcellData, this::changeToDetailStaff);
     }
 
     public void changeToAddStaff() {
@@ -118,7 +132,10 @@ public class StaffController {
             load();
             return null;
         };
-        Form.changeToAddForm(title, "Staff", mainContent, primaryStage, colNames, cellData, this::addAction, goBack);
+        Staff staffobj = new Staff();
+        ArrayList<String> newcolNames = staffobj.getColumnNames();
+        ArrayList<String> newcellData = staffobj.getCellData();
+        Form.changeToAddForm(title, "Staff", mainContent, primaryStage, newcolNames, newcellData, this::addAction, goBack);
     }
 
     private void addAction(ArrayList<String> newdata) {
@@ -128,7 +145,7 @@ public class StaffController {
         newStaff.setPhone(newdata.get(2));
         newStaff.setAddress(newdata.get(3));
         newStaff.setEmail(newdata.get(4));
-        newStaff.setPassword("Password test");
+        newStaff.setPassword(newdata.get(5));
         boolean response = staffDAO.addStaff(newStaff);
         if(response) {
             Toast.get().showSuccess("Staff added successfully");
